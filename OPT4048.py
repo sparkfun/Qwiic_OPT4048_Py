@@ -1,3 +1,4 @@
+
 class SFEColor:
     def __init__(self):
         self.red = 0
@@ -137,31 +138,253 @@ class QwOpt4048:
 
         return opt4048_range_t(controlReg.range)
 
-    def getConvReadyFlag(self):
-        flagReg = self.getAllFlags()
+    def set_conversion_time(self, time):
+        buff = bytearray([0, 0])
+        retVal = self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        controlReg &= ~(0xF00)  # Clear the conversion time bits
+        controlReg |= (time << 8)  # Set the new conversion time bits
+
+        buff[0] = controlReg >> 8
+        buff[1] = controlReg & 0xFF
+
+        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        return True
+
+    def get_conversion_time(self):
+        buff = bytearray([0, 0])
+        self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        return (controlReg >> 8) & 0xF
+
+    def set_qwake(self, enable):
+        buff = bytearray([0, 0])
+        retVal = self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        if enable:
+            controlReg |= (1 << 0)  # Set Qwake bit
+        else:
+            controlReg &= ~(1 << 0)  # Clear Qwake bit
+
+        buff[0] = controlReg >> 8
+        buff[1] = controlReg & 0xFF
+
+        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        return True
+
+    def get_qwake(self):
+        buff = bytearray([0, 0])
+        self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        return (controlReg & 0x01) == 1
+
+    def set_operation_mode(self, mode):
+        buff = bytearray([0, 0])
+        retVal = self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        controlReg &= ~(0x30)  # Clear the operation mode bits
+        controlReg |= (mode << 4)  # Set the new operation mode bits
+
+        buff[0] = controlReg >> 8
+        buff[1] = controlReg & 0xFF
+
+        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if retVal != 0:
+            return False
+
+        return True
+
+    def get_operation_mode(self):
+        buff = bytearray([0, 0])
+        self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        controlReg = (buff[0] << 8) | buff[1]
+
+        return (controlReg >> 4) & 0x03
+
+    def set_int_latch(self, enable):
+        buff = bytearray([0, 0])
+        ret_val = self.read_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        control_reg = (buff[0] << 8) | buff[1]
+        control_reg = control_reg & 0xfffe | enable
+
+        buff[0] = control_reg >> 8
+        buff[1] = control_reg
+
+        ret_val = self.write_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        return True
+
+    def get_int_latch(self):
+        buff = bytearray([0, 0])
+        self.read_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        control_reg = (buff[0] << 8) | buff[1]
+
+        return control_reg & 0x0001 == 1
+
+    def set_int_active_high(self, enable):
+        buff = bytearray([0, 0])
+        ret_val = self.read_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        int_reg = (buff[0] << 8) | buff[1]
+        int_reg = int_reg & 0xfffd | (enable << 1)
+
+        buff[0] = int_reg >> 8
+        buff[1] = int_reg
+
+        ret_val = self.write_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        return True
+
+    def get_int_active_high(self):
+        buff = bytearray([0, 0])
+        self.read_register_region(SFE_OPT4048_REGISTER_CONTROL, buff)
+
+        int_reg = (buff[0] << 8) | buff[1]
+
+        return (int_reg & 0x0002) >> 1 == 1
+
+    def set_int_input(self, enable):
+        buff = bytearray([0, 0])
+        ret_val = self.read_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        int_reg = (buff[0] << 8) | buff[1]
+        int_reg = int_reg & 0xfffd | (enable << 1)
+
+        buff[0] = int_reg >> 8
+        buff[1] = int_reg
+
+        ret_val = self.write_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        return True
+
+    def get_int_input_enable(self):
+        buff = bytearray([0, 0])
+        self.read_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        int_reg = (buff[0] << 8) | buff[1]
+
+        return (int_reg & 0x0002) >> 1 == 1
+
+    def set_int_mechanism(self, mechanism):
+        buff = bytearray([0, 0])
+        ret_val = self.read_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        int_reg = (buff[0] << 8) | buff[1]
+
+        int_reg &= ~(0b11 << 2)
+        int_reg |= (mechanism << 2)
+
+        buff[0] = int_reg >> 8
+        buff[1] = int_reg
+
+        ret_val = self.write_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        if ret_val != 0:
+            return False
+
+        return True
+
+
+    def get_int_mechanism(self):
+        buff = bytearray([0, 0])
+        self.read_register_region(SFE_OPT4048_REGISTER_INT_CONTROL, buff)
+
+        int_reg = (buff[0] << 8) | buff[1]
+
+        return (int_reg >> 2) & 0b11
+
+
+    def get_all_flags(self):
+        buff = bytearray([0, 0])
+        self.read_register_region(SFE_OPT4048_REGISTER_FLAGS, buff)
+
+        flag_reg = (buff[0] << 8) | buff[1]
+
+        return flag_reg
+
+
+    def get_overload_flag(self):
+        flag_reg = self.get_all_flags()
+
+        return (flag_reg & 0b1000) != 0
+
+    def get_conv_ready_falg(self):
+        flagReg = self.get_all_flags()
 
         if flagReg.conv_ready_flag != 1:
             return False
 
         return True
 
-    def getTooBrightFlag(self):
-        flagReg = self.getAllFlags()
+    def get_too_bright_flag(self):
+        flagReg = self.get_all_flags()
 
         if flagReg.flag_high != 1:
             return False
 
         return True
 
-    def getTooDimFlag(self):
-        flagReg = self.getAllFlags()
+    def get_too_dim_flag(self):
+        flagReg = self.get_all_flags()
 
         if flagReg.flag_low != 1:
             return False
 
         return True
 
-    def setFaultCount(self, count):
+    def set_fault_count(self, count):
         buff = [0, 0]
         retVal = self.readRegisterRegion(SFE_OPT4048_REGISTER_CONTROL, buff)
 
@@ -181,7 +404,7 @@ class QwOpt4048:
 
         return True
 
-    def getFaultCount(self):
+    def get_fault_count(self):
         buff = [0, 0]
         controlReg = 0
 
