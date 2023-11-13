@@ -71,65 +71,75 @@ class opt4048IntCFGT(Enum):
 SFE_OPT4048_REGISTER_EXP_RES_CH0 = 0x00
 class opt4048_reg_exp_res_ch0_t(ctypes.Union):
     _fields_ = [("result_msb_ch0", ctypes.c_uint16, 12),
-                ("exponent_ch0", ctypes.c_uint8, 4)]
+                ("exponent_ch0", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Result (LSB), Counter, and CRC for Channel 0
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0 = 0x01
 class opt4048_reg_res_cnt_crc_ch0_t(ctypes.Union):
     _fields_ = [("crc_ch0", ctypes.c_uint8, 4),
                 ("counter_ch0", ctypes.c_uint8, 4),
-                ("result_lsb_ch0", ctypes.c_uint8, 8)]
+                ("result_lsb_ch0", ctypes.c_uint8, 8),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Exponent and Result (MSB) for Channel 1
 SFE_OPT4048_REGISTER_EXP_RES_CH1 = 0x02
 class opt4048_reg_exp_res_ch1_t(ctypes.Union):
     _fields_ = [("result_msb_ch1", ctypes.c_uint16, 12),
-                ("exponent_ch1", ctypes.c_uint8, 4)]
+                ("exponent_ch1", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Result (LSB), Counter, and CRC for Channel 1
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1 = 0x03
 class opt4048_reg_res_cnt_crc_ch1_t(ctypes.Union):
     _fields_ = [("crc_ch1", ctypes.c_uint8, 4),
                 ("counter_ch1", ctypes.c_uint8, 4),
-                ("result_lsb_ch1", ctypes.c_uint8, 8)]
+                ("result_lsb_ch1", ctypes.c_uint8, 8),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Exponent and Result (MSB) for Channel 2
 SFE_OPT4048_REGISTER_EXP_RES_CH2 = 0x04
 class opt4048_reg_exp_res_ch2_t(ctypes.Union):
     _fields_ = [("result_msb_ch2", ctypes.c_uint16, 12),
-                ("exponent_ch2", ctypes.c_uint8, 4)]
+                ("exponent_ch2", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Result (LSB), Counter, and CRC for Channel 2
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2 = 0x05
 class opt4048_reg_res_cnt_crc_ch2_t(ctypes.Union):
     _fields_ = [("crc_ch2", ctypes.c_uint8, 4),
                 ("counter_ch2", ctypes.c_uint8, 4),
-                ("result_lsb_ch2", ctypes.c_uint8, 8)]
+                ("result_lsb_ch2", ctypes.c_uint8, 8),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Exponent and Result (MSB) for Channel 3
 SFE_OPT4048_REGISTER_EXP_RES_CH3 = 0x06
 class opt4048_reg_exp_res_ch3_t(ctypes.Union):
     _fields_ = [("result_msb_ch3", ctypes.c_uint16, 12),
-                ("exponent_ch3", ctypes.c_uint8, 4)]
+                ("exponent_ch3", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Result (LSB), Counter, and CRC for Channel 3
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3 = 0x07
 class opt4048_reg_res_cnt_crc_ch3_t(ctypes.Union):
     _fields_ = [("crc_ch3", ctypes.c_uint8, 4),
                 ("counter_ch3", ctypes.c_uint8, 4),
-                ("result_lsb_ch3", ctypes.c_uint8, 8)]
+                ("result_lsb_ch3", ctypes.c_uint8, 8),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Threshold  Exponent and Result - Low
 SFE_OPT4048_REGISTER_THRESH_L_EXP_RES = 0x08
 class opt4048_reg_thresh_exp_res_low_t(ctypes.Union):
     _fields_ = [("thresh_result", ctypes.c_uint16, 12),
-                ("thresh_exp", ctypes.c_uint8, 4)]
+                ("thresh_exp", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register for Threshold Exponent and Threshold Result - High
 SFE_OPT4048_REGISTER_THRESH_H_EXP_RES = 0x09
 class opt4048_reg_thresh_exp_res_high_t(ctypes.Union):
     _fields_ = [("thresh_result", ctypes.c_uint16, 12),
-                ("thresh_exp", ctypes.c_uint8, 4)]
+                ("thresh_exp", ctypes.c_uint8, 4),
+                ("word", ctypes.c_uint8, 16)]
 
 # Register that controls the main functions of the device.
 SFE_OPT4048_REGISTER_CONTROL = 0x0A
@@ -141,7 +151,8 @@ class opt4048_reg_control_t(ctypes.Union):
                 ("conversion_time", ctypes.c_uint16, 4),
                 ("range", ctypes.c_uint16, 4),
                 ("reserved", ctypes.c_uint16, 1),
-                ("qwake", ctypes.c_uint16, 1)]
+                ("qwake", ctypes.c_uint16, 1),
+                ("word", ctypes.c_uint16, 16)]
 
 # Register with settings for the interrupt pin.
 SFE_OPT4048_REGISTER_INT_CONTROL = 0x0B
@@ -151,7 +162,8 @@ class opt4048_reg_int_control_t(ctypes.Union):
                 ("int_cfg", ctypes.c_uint16, 2),
                 ("int_dir", ctypes.c_uint16, 1),
                 ("threshold_ch_sel", ctypes.c_uint16, 2),
-                ("reserved_one", ctypes.c_uint16, 9)]
+                ("reserved_one", ctypes.c_uint16, 9),
+                ("word", ctypes.c_uint16, 16)]
 
 # Register containing various status flags.
 SFE_OPT4048_REGISTER_FLAGS = 0x0C
@@ -160,14 +172,16 @@ class opt4048_reg_flags_t(ctypes.Union):
                 ("flag_high", ctypes.c_uint8, 1),
                 ("conv_ready_flag", ctypes.c_uint8, 1),
                 ("overload_flag", ctypes.c_uint8, 1),
-                ("reserved", ctypes.c_uint16, 12)]
+                ("reserved", ctypes.c_uint16, 12),
+                ("word", ctypes.c_uint16, 16)]
 
 # Register containing the device ID.
 SFE_OPT4048_REGISTER_DEVICE_ID = 0x11
 class opt4048_reg_device_id_t(ctypes.Union):
     _fields_ = [("DIDH", ctypes.c_uint16, 12),
                 ("DIDL", ctypes.c_uint16, 2),
-                ("reserved", ctypes.c_uint16, 2)] 
+                ("reserved", ctypes.c_uint16, 2), 
+                ("word", ctypes.c_uint16, 16)] 
 
 
 

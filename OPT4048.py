@@ -64,12 +64,28 @@ class QwOpt4048:
     device_name = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
     
+    # Return Types and Parameter Arguements
     self.opt4048_range_t = opt4048RangeT
     self.opt4048_conversion_time_t = opt4048ConversionTimeT
     self.opt4048_operation_mode_t = opt4048OperationModeT
     self.sfe_color_t = SFEColor
     
-    self.opt4048_reg_control = 
+    #Union for register contents
+    self.opt4048_register_exp_res_ch0 = opt4048_reg_exp_res_ch0_t()
+    self.opt4048_register_res_cnt_crc_ch0 = opt4048_reg_res_cnt_crc_ch0_t()
+    self.opt4048_reg_exp_res_ch1 = opt4048_reg_exp_res_ch1_t()
+    self.opt4048_reg_res_cnt_crc_ch1 = opt4048_reg_res_cnt_crc_ch1_t()  
+    self.opt4048_reg_exp_res_ch2 = opt4048_reg_exp_res_ch2_t()
+    self.opt4048_reg_res_cnt_crc_ch2 = opt4048_reg_res_cnt_crc_ch2_t()
+    self.opt4048_reg_exp_res_ch3 = opt4048_reg_exp_res_ch3_t()
+    self.opt4048_reg_res_cnt_crc_ch3 = opt4048_reg_res_cnt_crc_ch3_t()
+    slef.opt4048_reg_thresh_exp_res_low = opt4048_reg_thresh_exp_res_low_t()
+    self.opt4048_reg_thresh_exp_res_high = opt4048_reg_thresh_exp_res_high_t()
+    self.opt4048_reg_control =  opt4048_reg_control_t()
+    self.opt4048_reg_int_control = opt4048_reg_int_control_t()
+    self.opt4048_reg_flags = opt4048_reg_flags_t()
+    self.opt4048_reg_device_id = opt4048_reg_device_id_t()
+
 
     def __init__(self, address=None, i2c_driver=None):
 
@@ -101,7 +117,7 @@ class QwOpt4048:
 
     def begin(self):
 
-        if self.get_device_id() != OPT4048_DEVICE_ID:
+        if self.get_device_id() != OPT4048_DEVICE_ID
             return False
 
         return True
@@ -120,319 +136,219 @@ class QwOpt4048:
 
     def set_range(self, range):
 
-        reg_range = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+        reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        buff[0] = controlReg.word >> 8
-        buff[1] = controlReg.word
+        self.opt4048_reg_control.word = reg 
+        self.opt4048_reg_control.range = range 
 
-        retVal = self._i2c.writeWord(SFE_OPT4048_REGISTER_CONTROL)
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, self.opt4048_reg_control.word)
 
-        if retVal != 0:
-            return False
-
-        return True
 
     def get_range(self):
-        buff = [0, 0]
-        controlReg = opt4048_reg_control_t()
 
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+        reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg.word = (buff[0] << 8) | buff[1]
+        self.opt4048_reg_control.word = reg 
 
-        return opt4048_range_t(controlReg.range)
+        return opt4048_reg_control.range
 
     def set_conversion_time(self, time):
-        buff = bytearray([0, 0])
-        retVal = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if retVal != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg &= ~(0xF00)  # Clear the conversion time bits
-        controlReg |= (time << 8)  # Set the new conversion time bits
+        control_reg.conversion_time = time
 
-        buff[0] = controlReg >> 8
-        buff[1] = controlReg & 0xFF
-
-        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL
-
-        if retVal != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, controlReg.word)
 
     def get_conversion_time(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg = opt4048_reg_control_t()
 
-        return (controlReg >> 8) & 0xF
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+
+        return control_reg.conversion_time
 
     def set_qwake(self, enable):
-        buff = bytearray([0, 0])
-        retVal = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if retVal != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if enable:
-            controlReg |= (1 << 0)  # Set Qwake bit
-        else:
-            controlReg &= ~(1 << 0)  # Clear Qwake bit
+        control_reg.qwake = enable
 
-        buff[0] = controlReg >> 8
-        buff[1] = controlReg & 0xFF
-
-        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL
-
-        if retVal != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
     def get_qwake(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg = opt4048_reg_control_t()
 
-        return (controlReg & 0x01) == 1
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+
+        return control_reg.qwake
 
     def set_operation_mode(self, mode):
-        buff = bytearray([0, 0])
-        retVal = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if retVal != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg &= ~(0x30)  # Clear the operation mode bits
-        controlReg |= (mode << 4)  # Set the new operation mode bits
+        control_reg.op_mode = mode
 
-        buff[0] = controlReg >> 8
-        buff[1] = controlReg & 0xFF
-
-        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL
-
-        if retVal != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
     def get_operation_mode(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg = opt4048_reg_control_t()
 
-        return (controlReg >> 4) & 0x03
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+
+        return control_reg.op_mode
 
     def set_int_latch(self, enable):
-        buff = bytearray([0, 0])
-        ret_val = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if ret_val != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        control_reg = (buff[0] << 8) | buff[1]
-        control_reg = control_reg & 0xfffe | enable
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        buff[0] = control_reg >> 8
-        buff[1] = control_reg
+        control_reg.latch = enable
 
-        ret_val = self._i2c.writeWord(SFE_OPT4048_REGISTER_CONTROL
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
-        if ret_val != 0:
-            return False
-
-        return True
 
     def get_int_latch(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        control_reg = (buff[0] << 8) | buff[1]
+        control_reg = opt4048_reg_control_t()
 
-        return control_reg & 0x0001 == 1
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+
+        return control_reg.latch
 
     def set_int_active_high(self, enable):
-        buff = bytearray([0, 0])
-        ret_val = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if ret_val != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        int_reg = (buff[0] << 8) | buff[1]
-        int_reg = int_reg & 0xfffd | (enable << 1)
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        buff[0] = int_reg >> 8
-        buff[1] = int_reg
+        control_reg.int_pol = enable
 
-        ret_val = self._i2c.writeWord(SFE_OPT4048_REGISTER_CONTROL
-
-        if ret_val != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
     def get_int_active_high(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        int_reg = (buff[0] << 8) | buff[1]
+        control_reg = opt4048_reg_control_t()
 
-        return (int_reg & 0x0002) >> 1 == 1
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+
+        return control_reg.int_pol
 
     def set_int_input(self, enable):
-        buff = bytearray([0, 0])
-        ret_val = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        if ret_val != 0:
-            return False
+        int_control_reg = opt4048_reg_int_control_t()
 
-        int_reg = (buff[0] << 8) | buff[1]
-        int_reg = int_reg & 0xfffd | (enable << 1)
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        buff[0] = int_reg >> 8
-        buff[1] = int_reg
+        int_control_reg.int_dir = enable
 
-        ret_val = self._i2c.writeWord(SFE_OPT4048_REGISTER_INT_CONTROL
-
-        if ret_val != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL, int_control_reg.word)
 
     def get_int_input_enable(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        int_reg = (buff[0] << 8) | buff[1]
+        int_control_reg = opt4048_reg_int_control_t()
 
-        return (int_reg & 0x0002) >> 1 == 1
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
+
+        return int_control_reg.int_dir
 
     def set_int_mechanism(self, mechanism):
-        buff = bytearray([0, 0])
-        ret_val = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        if ret_val != 0:
-            return False
+        int_control_reg = opt4048_reg_int_control_t()
 
-        int_reg = (buff[0] << 8) | buff[1]
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        int_reg &= ~(0b11 << 2)
-        int_reg |= (mechanism << 2)
+        int_control_reg.int_cfg = enable
 
-        buff[0] = int_reg >> 8
-        buff[1] = int_reg
-
-        ret_val = self._i2c.writeWord(SFE_OPT4048_REGISTER_INT_CONTROL
-
-        if ret_val != 0:
-            return False
-
-        return True
-
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL, int_control_reg.word)
 
     def get_int_mechanism(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        int_reg = (buff[0] << 8) | buff[1]
+        int_control_reg = opt4048_reg_int_control_t()
 
-        return (int_reg >> 2) & 0b11
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
+
+        return int_control_reg.int_cfg
 
 
     def get_all_flags(self):
-        buff = bytearray([0, 0])
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_FLAGS)
 
-        flag_reg = (buff[0] << 8) | buff[1]
+        flag_reg = opt4048_reg_flags_t()
 
-        return flag_reg
+        flag_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_FLAGS)
+
+        return flag_reg.word
 
 
     def get_overload_flag(self):
-        flag_reg = self.get_all_flags()
 
-        return (flag_reg & 0b1000) != 0
+        flag_reg = opt4048_reg_flags_t()
+
+        flag_reg.word = self.get_all_flags()
+
+        return flag_reg.overload_flag
 
     def get_conv_ready_falg(self):
-        flagReg = self.get_all_flags()
 
-        if flagReg.conv_ready_flag != 1:
-            return False
+        flag_reg = opt4048_reg_flags_t()
 
-        return True
+        flag_reg.word = self.get_all_flags()
+
+        return flag_reg.conv_ready_flag
 
     def get_too_bright_flag(self):
-        flagReg = self.get_all_flags()
 
-        if flagReg.flag_high != 1:
-            return False
+        flag_reg = opt4048_reg_flags_t()
 
-        return True
+        flag_reg.word = self.get_all_flags()
+
+        return flag_reg.flag_high
 
     def get_too_dim_flag(self):
-        flagReg = self.get_all_flags()
 
-        if flagReg.flag_low != 1:
-            return False
+        flag_reg = opt4048_reg_flags_t()
 
-        return True
+        flag_reg.word = self.get_all_flags()
+
+        return flag_reg.flag_low
 
     def set_fault_count(self, count):
-        buff = [0, 0]
-        retVal = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        if retVal != 0:
-            return False
+        control_reg = opt4048_reg_control_t()
 
-        controlReg = (buff[0] << 8) | buff[1]
-        controlReg = (controlReg & 0xFFFC) | (count & 0x3)
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        buff[0] = (controlReg >> 8) & 0xFF
-        buff[1] = controlReg & 0xFF
+        control_reg.fault_count = count
 
-        retVal = self.writeRegisterRegion(SFE_OPT4048_REGISTER_CONTROL
-
-        if retVal != 0:
-            return False
-
-        return True
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
     def get_fault_count(self):
-        buff = [0, 0]
-        controlReg = 0
 
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
+        control_reg = opt4048_reg_control_t()
 
-        controlReg = (buff[0] << 8) | buff[1]
+        control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_CONTROL)
 
-        return controlReg 
+        return control_reg.fault_count
 
     def set_threshold_low(self, thresh):
         if not (2.15 <= thresh <= 144000):
             return False
 
-        buff = bytearray([0, 0])  # Assuming buff is of type uint8_t[2]
-        retVal = self._i2c.writeWord(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
-
-        if retVal != 0:
-            return False
+        self._i2c.writeWord(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
 
         return True
 
 
     def get_threshold_low(self):
-        buff = bytearray([0, 0])  # Assuming buff is of type uint8_t[2]
         threshReg = opt4048_reg_thresh_exp_res_low_t()
 
         self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_THRESH_L_EXP_RES)
@@ -445,11 +361,7 @@ class QwOpt4048:
 
 
     def set_i2c_burst(self, enable):
-        buff = bytearray([0, 0])  # Assuming buff is of type uint8_t[2]
-        retVal = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
-
-        if retVal != 0:
-            return False
+        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
         intReg = opt4048_reg_int_control_t()
         intReg.word = (buff[0] << 8) | buff[1]
@@ -459,16 +371,12 @@ class QwOpt4048:
         buff[0] = intReg.word >> 8
         buff[1] = intReg.word
 
-        retVal = self._i2c.writeWord(SFE_OPT4048_REGISTER_INT_CONTROL
-
-        if retVal != 0:
-            return False
+        self._i2c.writeWord(SFE_OPT4048_REGISTER_INT_CONTROL)
 
         return True
 
 
     def get_i2c_burst(self):
-        buff = bytearray([0, 0])  # Assuming buff is of type uint8_t[2]
         intReg = opt4048_reg_int_control_t()
 
         self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
@@ -626,5 +534,6 @@ class QwOpt4048:
         n = (CIEx - 0.3320) / (0.1858 - CIEy)
 
         CCT = 432 * n**3 + 3601 * n**2 + 6861 * n + 5517
+
 
         return CCT
