@@ -86,6 +86,14 @@ class QwOpt4048:
     self.opt4048_reg_flags = opt4048_reg_flags_t()
     self.opt4048_reg_device_id = opt4048_reg_device_id_t()
 
+    self.cie_matrix = [
+        [.000234892992, -.0000189652390, .0000120811684, 0],
+        [.0000407467441, .000198958202, -.0000158848115, .00215],
+        [.0000928619404, -.0000169739553, .000674021520, 0],
+        [0, 0, 0, 0]];
+    
+    self.OPT_MATRIX_ROWS = 4
+    self.OPT_MATRIX_COLS = 4
 
     def __init__(self, address=None, i2c_driver=None):
 
@@ -538,53 +546,43 @@ class QwOpt4048:
 
         adc_ch1 = self.get_adc_ch1()
 
-        lux = adc_ch1 * self.cie_matrix[1][3]
-
-        return lux
+        return adc_ch1 * self.cie_matrix[1][3]
 
     def get_CIEX(self):
-        x, y, z = 0, 0, 0
-        cie_x = 0
-        color = sfe_color_t()
 
-        self.get_all_channel_data(color)
+        x, y, z = 0, 0, 0
+        color = self.sfe_color_t()
+
+        color = self.get_all_channel_data()
 
         for row in range(self.OPT_MATRIX_ROWS):
             x += color.red * self.cie_matrix[row][0]
             y += color.green * self.cie_matrix[row][1]
             z += color.blue * self.cie_matrix[row][2]
 
-        total = x + y + z
-        if total != 0:
-            cie_x = x / total
-
-        return cie_x
+        return x/(x + y + z)
 
     def get_CIEY(self):
-        x, y, z = 0, 0, 0
-        cie_y = 0
-        color = sfe_color_t()
 
-        self.get_all_channel_data(color)
+        x, y, z = 0, 0, 0
+        color = self.sfe_color_t()
+
+        color = self.get_all_channel_data()
 
         for row in range(self.OPT_MATRIX_ROWS):
             x += color.red * self.cie_matrix[row][0]
             y += color.green * self.cie_matrix[row][1]
             z += color.blue * self.cie_matrix[row][2]
 
-        total = x + y + z
-        if total != 0:
-            cie_y = y / total
-
-        return cie_y
+        return y/(x + y + z) 
 
     def get_cct(self):
+
         CIEx = self.get_CIEx()
         CIEy = self.get_CIEy()
 
         n = (CIEx - 0.3320) / (0.1858 - CIEy)
 
         CCT = 432 * n**3 + 3601 * n**2 + 6861 * n + 5517
-
 
         return CCT

@@ -3,15 +3,15 @@ import ctypes
 
 # Addresses
 OPT4048_ADDR_HIGH = 0x45
+OPT4048_ADDR_SCL = 0x45
 OPT4048_ADDR_LOW = 0x44
 OPT4048_ADDR_DEF = 0x44
 OPT4048_ADDR_SDA = 0x46
-OPT4048_ADDR_SCL = 0x45
+
+OPT4048_DEVICE_ID = 0x2084
 
 _DEFAULT_NAME = "Qwiic OPT4048"
 _AVAILABLE_I2C_ADDRESS = [OPT4048_ADDR_LOW, OPT4048_ADDR_HIGH, OPT4048_ADDR_SDA]
-
-OPT4048_DEVICE_ID = 0x2084
 
 # Range Settings
 class opt4048RangeT(Enum):
@@ -182,17 +182,4 @@ class opt4048_reg_device_id_t(ctypes.Union):
                 ("DIDL", ctypes.c_uint16, 2),
                 ("reserved", ctypes.c_uint16, 2), 
                 ("word", ctypes.c_uint16, 16)] 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
