@@ -340,59 +340,70 @@ class QwOpt4048:
         return control_reg.fault_count
 
     def set_threshold_low(self, thresh):
-        if not (2.15 <= thresh <= 144000):
-            return False
 
-        self._i2c.writeWord(SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
+        thresh_reg = opt4048_reg_thresh_exp_res_low_t()
+        
+        thres_reg.word = self._i2c.readWord(self.address,SFE_OPT4048_REGISTER_THRESH_L_EXP_RES) 
+        
+        thresh_reg.thresh_exp = thresh
 
-        return True
-
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, thresh_reg.word)
 
     def get_threshold_low(self):
-        threshReg = opt4048_reg_thresh_exp_res_low_t()
 
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_THRESH_L_EXP_RES)
+        thresh_reg = opt4048_reg_thresh_exp_res_low_t()
+        
+        thres_reg.word = self._i2c.readWord(self.address,SFE_OPT4048_REGISTER_THRESH_L_EXP_RES) 
 
-        threshReg.word = (buff[0] << 8) | buff[1]
+        return thresh_reg.thresh_exp
 
-        thresholdLow = threshReg.thresh_result << threshReg.thresh_exp
+    def set_threshold_high(self, thresh):
 
-        return thresholdLow
+        thresh_reg = opt4048_reg_thresh_exp_res_high_t()
+        
+        thres_reg.word = self._i2c.readWord(self.address,SFE_OPT4048_REGISTER_THRESH_H_EXP_RES) 
+        
+        thresh_reg.thresh_exp = thresh
 
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, thresh_reg.word)
+
+    def get_threshold_high(self):
+
+        thresh_reg = opt4048_reg_thresh_exp_res_high_t()
+        
+        thres_reg.word = self._i2c.readWord(self.address,SFE_OPT4048_REGISTER_THRESH_H_EXP_RES) 
+
+        return thresh_reg.thresh_exp
 
     def set_i2c_burst(self, enable):
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        intReg = opt4048_reg_int_control_t()
-        intReg.word = (buff[0] << 8) | buff[1]
+        int_control_reg = opt4048_reg_int_control_t()
 
-        intReg.i2c_burst = int(enable)
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        buff[0] = intReg.word >> 8
-        buff[1] = intReg.word
+        int_control_reg.i2c_burst = enable
 
-        self._i2c.writeWord(SFE_OPT4048_REGISTER_INT_CONTROL)
-
-        return True
-
+        self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL, int_control_reg.word)
 
     def get_i2c_burst(self):
-        intReg = opt4048_reg_int_control_t()
 
-        self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
+        int_control_reg = opt4048_reg_int_control_t()
 
-        intReg.word = (buff[0] << 8) | buff[1]
+        int_control_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_INT_CONTROL)
 
-        if intReg.i2c_burst != 1:
-            return False
+        return int_control_reg.i2c_burst 
 
-     def get_ADC_ch0(self):
-        buff = [0] * 4
+
+     def get_adc_ch0(self):
+
         adc_code = 0
         mantissa = 0
 
-        adc_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH04)
-        adc1_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH04)
+        adc_reg = opt4048_reg_exp_res_ch0_t()
+        adc1_reg = opt4048_reg_res_cnt_crc_ch0_t()
+
+        adc_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH0)
+        adc1_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0)
 
         mantissa = (adc_reg.result_msb_ch0 << 8) | adc1_reg.result_lsb_ch0
 
@@ -400,13 +411,16 @@ class QwOpt4048:
 
         return adc_code
 
-    def get_ADC_ch1(self):
-        buff = [0] * 4
+    def get_adc_ch1(self):
+
         adc_code = 0
         mantissa = 0
 
-        adc_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH14)
-        adc1_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH14)
+        adc_reg = opt4048_reg_exp_res_ch1_t()
+        adc1_reg = opt4048_reg_res_cnt_crc_ch1_t()
+
+        adc_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH1)
+        adc1_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1)
 
         mantissa = (adc_reg.result_msb_ch1 << 8) | adc1_reg.result_lsb_ch1
 
@@ -414,13 +428,16 @@ class QwOpt4048:
 
         return adc_code
 
-    def get_ADC_ch2(self):
-        buff = [0] * 4
+    def get_adc_ch2(self):
+
         adc_code = 0
         mantissa = 0
 
-        adc_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH24)
-        adc1_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH24)
+        adc_reg = opt4048_reg_exp_res_ch2_t()
+        adc1_reg = opt4048_reg_res_cnt_crc_ch2_t()
+
+        adc_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH2)
+        adc1_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2)
 
         mantissa = (adc_reg.result_msb_ch2 << 8) | adc1_reg.result_lsb_ch2
 
@@ -428,67 +445,101 @@ class QwOpt4048:
 
         return adc_code
 
-    def get_ADC_ch3(self):
-        buff = [0] * 4
+    def get_adc_ch3(self):
+
         adc_code = 0
         mantissa = 0
 
-        adc_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH34)
-        adc1_reg = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH34)
+        adc_reg = opt4048_reg_exp_res_ch3_t()
+        adc1_reg = opt4048_reg_res_cnt_crc_ch3_t()
+
+        adc_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH3)
+        adc1_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3)
 
         mantissa = (adc_reg.result_msb_ch3 << 8) | adc1_reg.result_lsb_ch3
 
         adc_code = mantissa << adc_reg.exponent_ch3
 
-        return adc_code   # Add other methods here...
+        return adc_code
 
-    def get_all_adc():
+    def get_all_adc(self):
+
         color = self.sfe_color_t()
-        color.red = get_adc_ch0()
-        color.green = get_adc_ch1()
-        color.blue = get_adc_ch2()
-        color.white = get_adc_ch3()
+        color.red = self.get_adc_ch0()
+        color.green = self.get_adc_ch1()
+        color.blue = self.get_adc_ch2()
+        color.white = self.get_adc_ch3()
+
         return color
 
 
-    def get_all_channel_data():
-        buff = read_register_region(SFE_OPT4048_REGISTER_EXP_RES_CH0, 16)
-        
-        adc0MSB = opt4048_reg_exp_res_ch0_t((buff[0] << 8) | buff[1])
-        adc0LSB = opt4048_reg_res_cnt_crc_ch0_t((buff[2] << 8) | buff[3])
-        
-        adc1MSB = opt4048_reg_exp_res_ch1_t((buff[4] << 8) | buff[5])
-        adc1LSB = opt4048_reg_res_cnt_crc_ch1_t((buff[6] << 8) | buff[7])
-        
-        adc2MSB = opt4048_reg_exp_res_ch2_t((buff[8] << 8) | buff[9])
-        adc2LSB = opt4048_reg_res_cnt_crc_ch2_t((buff[10] << 8) | buff[11])
-        
-        adc3MSB = opt4048_reg_exp_res_ch3_t((buff[12] << 8) | buff[13])
-        adc3LSB = opt4048_reg_res_cnt_crc_ch3_t((buff[14] << 8) | buff[15])
+    def get_all_channel_data(self):
 
-        mantissa_ch0 = adc0MSB.result_msb_ch0 << 8 | adc0LSB.result_lsb_ch0
-        adc_code_ch0 = mantissa_ch0 << adc0MSB.exponent_ch0
-        
-        mantissa_ch1 = adc1MSB.result_msb_ch1 << 8 | adc1LSB.result_lsb_ch1
-        adc_code_ch1 = mantissa_ch1 << adc1MSB.exponent_ch1
-        
-        mantissa_ch2 = adc2MSB.result_msb_ch2 << 8 | adc2LSB.result_lsb_ch2
-        adc_code_ch2 = mantissa_ch2 << adc2MSB.exponent_ch2
-        
-        mantissa_ch3 = adc3MSB.result_msb_ch3 << 8 | adc3LSB.result_lsb_ch3
-        adc_code_ch3 = mantissa_ch3 << adc3MSB.exponent_ch3
-        
-        color = sfe_color_t(
-            red=adc_code_ch0, green=adc_code_ch1, blue=adc_code_ch2, white=adc_code_ch3,
-            counterR=adc0LSB.counter_ch0, counterG=adc1LSB.counter_ch1,
-            counterB=adc2LSB.counter_ch2, counterW=adc3LSB.counter_ch3,
-            CRCR=adc0LSB.crc_ch0, CRCG=adc1LSB.crc_ch1, CRCB=adc2LSB.crc_ch2, CRCW=adc3LSB.crc_ch3
-        )
+        buff= bytearray()
 
-    return color
+        adc0_msb = opt4048_reg_exp_res_ch0_t()
+        adc0_lsb = opt4048_reg_res_cnt_crc_ch0_t()
+
+        adc1_msb = opt4048_reg_exp_res_ch1_t()
+        adc1_lsb = opt4048_reg_res_cnt_crc_ch1_t()
+
+        adc2_msb = opt4048_reg_exp_res_ch2_t()
+        adc2_lsb = opt4048_reg_res_cnt_crc_ch2_t()
+
+        adc3_msb = opt4048_reg_exp_res_ch3_t()
+        adc3_lsb = opt4048_reg_res_cnt_crc_ch3_t()
+
+        buff = self._i2c.readBlock(self.address, SFE_OPT4048_REGISTER_EXP_RES_CH0, 16)
+        
+        adc0_msb.word = (buff[0] << 8) | buff[1]
+        adc0_lsb.word = (buff[2] << 8) | buff[3]
+        
+        adc1_msb.word = (buff[4] << 8) | buff[5]
+        adc1_lsb.word = (buff[6] << 8) | buff[7]
+        
+        adc2_msb.word = (buff[8] << 8) | buff[9]
+        adc2_lsb.word = (buff[10] << 8) | buff[11]
+        
+        adc3_msb.word = (buff[12] << 8) | buff[13]
+        adc3_lsb.word = (buff[14] << 8) | buff[15]
+
+        mantissa_ch0 = (adc0_msb.result_msb_ch0 << 8) | adc0_lsb.result_lsb_ch0
+        adc_code_ch0 = mantissa_ch0 << adc0_msb.exponent_ch0
+        
+        mantissa_ch1 = (adc1_msb.result_msb_ch1 << 8) | adc1_lsb.result_lsb_ch1
+        adc_code_ch1 = mantissa_ch1 << adc1_msb.exponent_ch1
+        
+        mantissa_ch2 = (adc2_msb.result_msb_ch2 << 8) | adc2_lsb.result_lsb_ch2
+        adc_code_ch2 = mantissa_ch2 << adc2_msb.exponent_ch2
+        
+        mantissa_ch3 = (adc3_msb.result_msb_ch3 << 8) | adc3_lsb.result_lsb_ch3
+        adc_code_ch3 = mantissa_ch3 << adc3_msb.exponent_ch3
+        
+        color = self.sfe_color_t()
+
+        color.red = adc_code_ch0
+        color.green = adc_code_ch1
+        color.blue = adc_code_ch2
+        color.white = adc_code_ch3
+
+        color.counterR = adc0_lsb.counter_ch0
+        color.counterG = adc1_lsb.counter_ch1
+        color.counterB = adc2_lsb.counter_ch2
+        color.counterW = adc3_lsb.counter_ch3
+
+        color.CRCR = adc0_lsb.crc_ch0
+        color.CRCG = adc1_lsb.crc_ch1
+        color.CRCB = adc2_lsb.crc_ch2
+        color.CRCW = adc3_lsb.crc_ch3
+
+        return color
+
     def get_lux(self):
+
         adc_ch1 = self.get_adc_ch1()
+
         lux = adc_ch1 * self.cie_matrix[1][3]
+
         return lux
 
     def get_CIEX(self):
