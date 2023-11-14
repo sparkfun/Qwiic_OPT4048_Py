@@ -1,3 +1,39 @@
+#-------------------------------------------------------------------------------
+# qwiic_opt4048.py 
+#
+# Python library for the SparkFun Qwiic OPT4048 Tristiumulus Color Sensor, available here:
+# Qwiic 1x1:  https://www.sparkfun.com/products/22638
+# Qwiic Mini: https://www.sparkfun.com/products/22639
+#-------------------------------------------------------------------------------
+# Written by SparkFun Electronics, November, 2023
+#
+# This python library supports the SparkFun Electroncis Qwiic ecosystem
+#
+# More information on Qwiic is at https://www.sparkfun.com/qwiic
+#
+# Do you like this library? Help support SparkFun. Buy a board!
+#===============================================================================
+# Copyright (c) 2023 SparkFun Electronics
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#===============================================================================
+
 from dataclasses import dataclass
 import qwiic_i2c
 import OPT4048_Registers
@@ -27,6 +63,7 @@ class sfe_color_t:
     CRCG: int = 0
     CRCB: int = 0
     CRCW: int = 0
+
 
 class QwOpt4048:
     device_name = _DEFAULT_NAME
@@ -64,17 +101,30 @@ class QwOpt4048:
         :rtype: bool
 
         """
-        connected = property(is_connected)
         return qwiic_i2c.isDeviceConnected(self.address)
 
+    connected = property(is_connected)
 
     def begin(self):
+        """
+        Initializes this device with default parameters
+
+        :return: Returns `True` if successful, otherwise `False`
+        :rtype: bool
+        """
+
         if self.get_device_id() != OPT4048_DEVICE_ID:
             return False
 
         return True
 
     def get_device_id(self):
+        """
+        Retrieve the unique device ID of the OPT4048.
+
+        :return: Unique device ID.
+        :rtype: int
+        """
         unique_id = self._i2c.readWord(
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_DEVICE_ID
         )
@@ -82,6 +132,13 @@ class QwOpt4048:
         return unique_id
 
     def set_basic_setup(self):
+        """
+        Configure basic setup for the OPT4048.
+
+        This function sets the range, conversion time, and operation mode to default values.
+
+        :return: None
+        """
         self.set_range(OPT4048_Registers.opt4048RangeT.RANGE_36LUX)
         self.set_conversion_time(
             OPT4048_Registers.opt4048ConversionTimeT.CONVERSION_TIME_200MS
@@ -91,6 +148,13 @@ class QwOpt4048:
         )
 
     def set_range(self, range):
+        """
+        Set the range of the OPT4048.
+
+        :param range: The desired range to set.
+        :type range: OPT4048_Registers.opt4048RangeT
+        :return: None
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
         control_reg.word = self._i2c.readWord(
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_CONTROL
@@ -105,6 +169,12 @@ class QwOpt4048:
         )
 
     def get_range(self):
+        """
+        Retrieve the current range setting of the OPT4048.
+
+        :return: Current range setting.
+        :rtype: OPT4048_Registers.opt4048RangeT
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
         control_reg.word = self._i2c.readWord(
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_CONTROL
