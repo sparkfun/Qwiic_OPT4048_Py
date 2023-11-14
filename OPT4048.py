@@ -65,10 +65,10 @@ class QwOpt4048:
     available_addresses = _AVAILABLE_I2C_ADDRESS
     
     # Return Types and Parameter Arguements
-    self.opt4048_range_t = opt4048RangeT
-    self.opt4048_conversion_time_t = opt4048ConversionTimeT
-    self.opt4048_operation_mode_t = opt4048OperationModeT
-    self.sfe_color_t = SFEColor
+    self.opt4048_range_t = opt4048RangeT()
+    self.opt4048_conversion_time_t = opt4048ConversionTimeT()
+    self.opt4048_operation_mode_t = opt4048OperationModeT()
+    self.sfe_color_t = SFEColor()
     
     #Union for register contents
     self.opt4048_register_exp_res_ch0 = opt4048_reg_exp_res_ch0_t()
@@ -224,7 +224,6 @@ class QwOpt4048:
 
         self._i2c.writeWord(self.address, SFE_OPT4048_REGISTER_CONTROL, control_reg.word)
 
-
     def get_int_latch(self):
 
         control_reg = opt4048_reg_control_t()
@@ -287,7 +286,6 @@ class QwOpt4048:
 
         return int_control_reg.int_cfg
 
-
     def get_all_flags(self):
 
         flag_reg = opt4048_reg_flags_t()
@@ -295,7 +293,6 @@ class QwOpt4048:
         flag_reg.word = self._i2c.readWord(self.address, SFE_OPT4048_REGISTER_FLAGS)
 
         return flag_reg.word
-
 
     def get_overload_flag(self):
 
@@ -481,7 +478,7 @@ class QwOpt4048:
         return color
 
 
-    def get_all_channel_data(self):
+    def get_all_channel_data(self, color):
 
         buff= bytearray()
 
@@ -523,8 +520,6 @@ class QwOpt4048:
         mantissa_ch3 = (adc3_msb.result_msb_ch3 << 8) | adc3_lsb.result_lsb_ch3
         adc_code_ch3 = mantissa_ch3 << adc3_msb.exponent_ch3
         
-        color = self.sfe_color_t()
-
         color.red = adc_code_ch0
         color.green = adc_code_ch1
         color.blue = adc_code_ch2
@@ -553,7 +548,7 @@ class QwOpt4048:
         x, y, z = 0, 0, 0
         color = self.sfe_color_t()
 
-        color = self.get_all_channel_data()
+        self.get_all_channel_data(color)
 
         for row in range(self.OPT_MATRIX_ROWS):
             x += color.red * self.cie_matrix[row][0]
@@ -567,7 +562,7 @@ class QwOpt4048:
         x, y, z = 0, 0, 0
         color = self.sfe_color_t()
 
-        color = self.get_all_channel_data()
+        self.get_all_channel_data(color)
 
         for row in range(self.OPT_MATRIX_ROWS):
             x += color.red * self.cie_matrix[row][0]
