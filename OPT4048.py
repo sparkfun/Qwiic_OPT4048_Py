@@ -79,7 +79,7 @@ class QwOpt4048:
     self.opt4048_reg_res_cnt_crc_ch2 = opt4048_reg_res_cnt_crc_ch2_t()
     self.opt4048_reg_exp_res_ch3 = opt4048_reg_exp_res_ch3_t()
     self.opt4048_reg_res_cnt_crc_ch3 = opt4048_reg_res_cnt_crc_ch3_t()
-    slef.opt4048_reg_thresh_exp_res_low = opt4048_reg_thresh_exp_res_low_t()
+    self.opt4048_reg_thresh_exp_res_low = opt4048_reg_thresh_exp_res_low_t()
     self.opt4048_reg_thresh_exp_res_high = opt4048_reg_thresh_exp_res_high_t()
     self.opt4048_reg_control =  opt4048_reg_control_t()
     self.opt4048_reg_int_control = opt4048_reg_int_control_t()
