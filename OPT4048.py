@@ -14,7 +14,7 @@ _AVAILABLE_I2C_ADDRESS = [OPT4048_ADDR_LOW, OPT4048_ADDR_HIGH, OPT4048_ADDR_SDA]
 
 
 @dataclass
-class SFEColor:
+class sfe_color_t:
     red: int = 0
     green: int = 0
     blue: int = 0
@@ -73,27 +73,6 @@ class QwOpt4048:
     device_name = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
     # Return Types and Parameter Arguements
-    sfe_color_t = SFEColor()
-
-    # Union for register contents
-    opt4048_register_exp_res_ch0 = OPT4048_Registers.opt4048_reg_exp_res_ch0_t()
-    opt4048_register_res_cnt_crc_ch0 = OPT4048_Registers.opt4048_reg_res_cnt_crc_ch0_t()
-    opt4048_reg_exp_res_ch1 = OPT4048_Registers.opt4048_reg_exp_res_ch1_t()
-    opt4048_reg_res_cnt_crc_ch1 = OPT4048_Registers.opt4048_reg_res_cnt_crc_ch1_t()
-    opt4048_reg_exp_res_ch2 = OPT4048_Registers.opt4048_reg_exp_res_ch2_t()
-    opt4048_reg_res_cnt_crc_ch2 = OPT4048_Registers.opt4048_reg_res_cnt_crc_ch2_t()
-    opt4048_reg_exp_res_ch3 = OPT4048_Registers.opt4048_reg_exp_res_ch3_t()
-    opt4048_reg_res_cnt_crc_ch3 = OPT4048_Registers.opt4048_reg_res_cnt_crc_ch3_t()
-    opt4048_reg_thresh_exp_res_low = (
-        OPT4048_Registers.opt4048_reg_thresh_exp_res_low_t()
-    )
-    opt4048_reg_thresh_exp_res_high = (
-        OPT4048_Registers.opt4048_reg_thresh_exp_res_high_t()
-    )
-    opt4048_reg_control = OPT4048_Registers.opt4048_reg_control_t()
-    opt4048_reg_int_control = OPT4048_Registers.opt4048_reg_int_control_t()
-    opt4048_reg_flags = OPT4048_Registers.opt4048_reg_flags_t()
-    opt4048_reg_device_id = OPT4048_Registers.opt4048_reg_device_id_t()
 
     cie_matrix = [
         [0.000234892992, -0.0000189652390, 0.0000120811684, 0],
@@ -110,7 +89,6 @@ class QwOpt4048:
         self.address = self.available_addresses[0] if address is None else address
 
         # load the I2C driver if one isn't provided
-
         if i2c_driver is None:
             self._i2c = qwiic_i2c.getI2CDriver()
             if self._i2c is None:
@@ -127,9 +105,9 @@ class QwOpt4048:
         :rtype: bool
 
         """
+        connected = property(is_connected)
         return qwiic_i2c.isDeviceConnected(self.address)
 
-    connected = property(is_connected)
 
     def begin(self):
         if self.get_device_id() != OPT4048_DEVICE_ID:
@@ -154,27 +132,26 @@ class QwOpt4048:
         )
 
     def set_range(self, range):
-        reg = self._i2c.readWord(
+        control_reg = OPT4048_Registers.opt4048_reg_control_t()
+        control_reg.word = self._i2c.readWord(
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        self.opt4048_reg_control.word = reg
-        self.opt4048_reg_control.range = range
+        control_reg.range = range
 
         self._i2c.writeWord(
             self.address,
             OPT4048_Registers.SFE_OPT4048_REGISTER_CONTROL,
-            self.opt4048_reg_control.word,
+            control_reg.word,
         )
 
     def get_range(self):
-        reg = self._i2c.readWord(
+        control_reg = OPT4048_Registers.opt4048_reg_control_t()
+        control_reg.word = self._i2c.readWord(
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        self.opt4048_reg_control.word = reg
-
-        return self.opt4048_reg_control.range
+        return control_reg.range
 
     def set_conversion_time(self, time):
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
@@ -558,7 +535,7 @@ class QwOpt4048:
         return adc_code
 
     def get_all_adc(self):
-        color = self.sfe_color_t
+        color = sfe_color_t()
         color.red = self.get_adc_ch0()
         color.green = self.get_adc_ch1()
         color.blue = self.get_adc_ch2()
@@ -633,7 +610,7 @@ class QwOpt4048:
 
     def get_CIEx(self):
         x, y, z = 0, 0, 0
-        color = self.sfe_color_t
+        color = sfe_color_t()
 
         self.get_all_channel_data(color)
 
@@ -646,7 +623,7 @@ class QwOpt4048:
 
     def get_CIEy(self):
         x, y, z = 0, 0, 0
-        color = self.sfe_color_t
+        color = sfe_color_t()
 
         self.get_all_channel_data(color)
 

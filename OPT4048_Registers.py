@@ -1,6 +1,7 @@
 from enum import Enum
 import ctypes
 
+
 # Range Settings
 class opt4048RangeT(Enum):
     RANGE_2KLUX2 = 0x00
