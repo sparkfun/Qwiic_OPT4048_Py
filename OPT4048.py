@@ -28,47 +28,6 @@ class sfe_color_t:
     CRCB: int = 0
     CRCW: int = 0
 
-
-class CRCBits:
-    def __init__(self):
-        self.bit0 = 0
-        self.bit1 = 0
-        self.bit2 = 0
-        self.bit3 = 0
-
-
-class ExponBits:
-    def __init__(self):
-        self.bit0 = 0
-        self.bit1 = 0
-        self.bit2 = 0
-        self.bit3 = 0
-
-
-class MantissaBits:
-    def __init__(self):
-        self.bit0 = 0
-        self.bit1 = 0
-        self.bit2 = 0
-        self.bit3 = 0
-        self.bit4 = 0
-        self.bit5 = 0
-        self.bit6 = 0
-        self.bit7 = 0
-        self.bit8 = 0
-        self.bit9 = 0
-        self.bit10 = 0
-        self.bit11 = 0
-        self.bit12 = 0
-        self.bit13 = 0
-        self.bit14 = 0
-        self.bit15 = 0
-        self.bit16 = 0
-        self.bit17 = 0
-        self.bit18 = 0
-        self.bit19 = 0
-
-
 class QwOpt4048:
     device_name = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
