@@ -4,11 +4,7 @@
 # Python library for the SparkFun Qwiic OPT4048 Tristiumulus Color Sensor, available here:
 # Qwiic 1x1:  https://www.sparkfun.com/products/22638
 # Qwiic Mini: https://www.sparkfun.com/products/22639
-# -------------------------------------------------------------------------------
-# Written by SparkFun Electronics, November, 2023
-#
-# This python library supports the SparkFun Electroncis Qwiic ecosystem
-#
+# ------------------------------------------------------------------------------- Written by SparkFun Electronics, November, 2023 This python library supports the SparkFun Electroncis Qwiic ecosystem
 # More information on Qwiic is at https://www.sparkfun.com/qwiic
 #
 # Do you like this library? Help support SparkFun. Buy a board!
@@ -51,6 +47,9 @@ _AVAILABLE_I2C_ADDRESS = [OPT4048_ADDR_LOW, OPT4048_ADDR_HIGH, OPT4048_ADDR_SDA]
 
 @dataclass
 class sfe_color_t:
+    """
+    Dataclass for storing color data from the OPT4048.
+    """
     red: int = 0
     green: int = 0
     blue: int = 0
@@ -66,6 +65,10 @@ class sfe_color_t:
 
 
 class QwOpt4048:
+    """
+    QwOpt4048
+    """
+    
     device_name = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
     # Return Types and Parameter Arguements
@@ -81,6 +84,13 @@ class QwOpt4048:
     OPT_MATRIX_COLS = 4
 
     def __init__(self, address=None, i2c_driver=None):
+        """
+        Initialize the QwOpt4048 device class.
+        :param address: The I2C address to use for the device.
+        :param i2c_driver: An existing i2c driver object to use (optional).
+        :return: The QwOpt4048 device object.
+        :rtype: Object
+        """
         # Did the user specify an I2C address?
         self.address = self.available_addresses[0] if address is None else address
 
@@ -183,6 +193,13 @@ class QwOpt4048:
         return control_reg.range
 
     def set_conversion_time(self, time):
+        """
+        Set the time used to convert light to analog values. Longer times result in more accurate
+        readings.
+        :param time: The desired conversion time to set.
+        :type time: int
+        :return: None
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -198,6 +215,12 @@ class QwOpt4048:
         )
 
     def get_conversion_time(self):
+        """
+        Gets the time used to convert light to analog values. Longer times result in more accurate
+        readings.
+        :return: Current conversion time setting.
+        :rtype: int
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -207,6 +230,12 @@ class QwOpt4048:
         return control_reg.conversion_time
 
     def set_qwake(self, enable):
+        """
+        Sets the quick wake bit for the OPT4048. When enabled, not all systems are put into
+        deep sleep when the device is set to this mode, resulting in faster wake times.
+        :param enable: Enable or disable quick wake.
+        :type enable: bool
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -222,6 +251,12 @@ class QwOpt4048:
         )
 
     def get_qwake(self):
+        """
+        Retrieve the quick wake bit for the OPT4048. When enabled, not all systems are put into
+        deep sleep when the device is set to this mode, resulting in faster wake times.
+        :return: Quick wake bit.
+        :rtype: int
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -231,6 +266,13 @@ class QwOpt4048:
         return control_reg.qwake
 
     def set_operation_mode(self, mode):
+        """
+        Set the operation mode of the OPT4048: Power-down, Forced auto-range, one-shot, or continuous.
+        :param mode: The desired operation mode to set.
+        :type mode: int
+        :return: None
+        """
+
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -246,6 +288,11 @@ class QwOpt4048:
         )
 
     def get_operation_mode(self):
+        """
+        Retrieve the current operation mode of the OPT4048.
+        :return: Current operation mode.
+        :rtype: int
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -255,6 +302,13 @@ class QwOpt4048:
         return control_reg.op_mode
 
     def set_int_latch(self, enable):
+        """
+        Set the interrupt latch of the OPT4048. When enabled, the interrupt pin will remain active
+        until the interrupt register is read.
+        :param enable: Enable or disable interrupt latch.
+        :type enable: bool
+        :return: None
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -270,6 +324,12 @@ class QwOpt4048:
         )
 
     def get_int_latch(self):
+        """
+        Retrieve the interrupt latch of the OPT4048. When enabled, the interrupt pin will remain active
+        until the interrupt register is read.
+        :return: Interrupt latch.
+        :rtype: bool
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -279,6 +339,12 @@ class QwOpt4048:
         return control_reg.latch
 
     def set_int_active_high(self, enable):
+        """
+        Set the interrupt polarity of the OPT4048. When enabled, the interrupt pin is active high.
+        :param enable: Enable or disable interrupt polarity.
+        :type enable: bool
+        :return: None
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -294,6 +360,11 @@ class QwOpt4048:
         )
 
     def get_int_active_high(self):
+        """
+        Retrieve the interrupt polarity of the OPT4048. When enabled, the interrupt pin is active high.
+        :return: Interrupt polarity.
+        :rtype: bool
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -303,6 +374,11 @@ class QwOpt4048:
         return control_reg.int_pol
 
     def set_int_input(self, enable):
+        """
+        Set the interrupt input of the OPT4048. When enabled, the interrupt pin is used as an input.
+        :param enable: Enable or disable interrupt input.
+        :type enable: bool
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -318,6 +394,11 @@ class QwOpt4048:
         )
 
     def get_int_input_enable(self):
+        """
+        Retrieve the interrupt input of the OPT4048. When enabled, the interrupt pin is used as an input.
+        :return: Interrupt input.
+        :rtype: bool
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -327,6 +408,13 @@ class QwOpt4048:
         return int_control_reg.int_dir
 
     def set_int_mechanism(self, enable):
+        """
+        Set the interrupt mechanism of the OPT4048: SMBus Alert, INT Pin data ready for next channel, 
+        or INT Pin data ready for all channels.
+        :param enable: Enable or disable interrupt mechanism.
+        :type enable: bool
+        :return: None
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -342,6 +430,12 @@ class QwOpt4048:
         )
 
     def get_int_mechanism(self):
+        """
+        Retrieve the interrupt mechanism of the OPT4048: SMBus Alert, INT Pin data ready for next channel,
+        or INT Pin data ready for all channels.
+        :return: Interrupt mechanism.
+        :rtype: int
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -671,9 +765,9 @@ class QwOpt4048:
 
     def get_all_channel_data(self, color):
         """
-        Retrieve the ADC values of all channels of the OPT4048. 
+        Retrieve the ADC values of all channels of the OPT4048.
         :return: ADC values of all channels.
-        :rtype: sfe_color_t 
+        :rtype: sfe_color_t
         """
         buff = bytearray()
 
