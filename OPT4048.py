@@ -229,7 +229,7 @@ class QwOpt4048:
 
         return control_reg.conversion_time
 
-    def set_qwake(self, enable):
+    def set_qwake(self, enable=True):
         """
         Sets the quick wake bit for the OPT4048. When enabled, not all systems are put into
         deep sleep when the device is set to this mode, resulting in faster wake times.
@@ -301,7 +301,7 @@ class QwOpt4048:
 
         return control_reg.op_mode
 
-    def set_int_latch(self, enable):
+    def set_int_latch(self, enable=True):
         """
         Set the interrupt latch of the OPT4048. When enabled, the interrupt pin will remain active
         until the interrupt register is read.
@@ -338,7 +338,7 @@ class QwOpt4048:
 
         return control_reg.latch
 
-    def set_int_active_high(self, enable):
+    def set_int_active_high(self, enable=True):
         """
         Set the interrupt polarity of the OPT4048. When enabled, the interrupt pin is active high.
         :param enable: Enable or disable interrupt polarity.
@@ -373,7 +373,7 @@ class QwOpt4048:
 
         return control_reg.int_pol
 
-    def set_int_input(self, enable):
+    def set_int_input(self, enable=True):
         """
         Set the interrupt input of the OPT4048. When enabled, the interrupt pin is used as an input.
         :param enable: Enable or disable interrupt input.
@@ -407,7 +407,7 @@ class QwOpt4048:
 
         return int_control_reg.int_dir
 
-    def set_int_mechanism(self, enable):
+    def set_int_mechanism(self, mechanism):
         """
         Set the interrupt mechanism of the OPT4048: SMBus Alert, INT Pin data ready for next channel, 
         or INT Pin data ready for all channels.
@@ -421,7 +421,7 @@ class QwOpt4048:
             self.address, OPT4048_Registers.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.int_cfg = enable
+        int_control_reg.int_cfg = mechanism
 
         self._i2c.writeWord(
             self.address,
@@ -613,7 +613,7 @@ class QwOpt4048:
 
         return thresh_reg.thresh_exp
 
-    def set_i2c_burst(self, enable):
+    def set_i2c_burst(self, enable=True):
         """
         Set the I2C burst setting of the OPT4048: auto-increment or single register I2C reads.
         :param enable: Enable or disable I2C burst setting.

@@ -49,11 +49,13 @@ def runExample():
     # Initialize the device
     myColor.begin()
 
-
     myColor.set_basic_setup()
     
     print("Lux: ")
     print(myColor.get_lux())
+    print("\n")
+    # Delay time is set to the conversion time * number of channels
+    # You need three channels for color sensing @ 800ms conversion time = 3200ms.
     time.sleep(.2)
 
 
