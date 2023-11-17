@@ -1,10 +1,10 @@
-#-------------------------------------------------------------------------------
-# qwiic_opt4048.py 
+# -------------------------------------------------------------------------------
+# qwiic_opt4048.py
 #
 # Python library for the SparkFun Qwiic OPT4048 Tristiumulus Color Sensor, available here:
 # Qwiic 1x1:  https://www.sparkfun.com/products/22638
 # Qwiic Mini: https://www.sparkfun.com/products/22639
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Written by SparkFun Electronics, November, 2023
 #
 # This python library supports the SparkFun Electroncis Qwiic ecosystem
@@ -12,7 +12,7 @@
 # More information on Qwiic is at https://www.sparkfun.com/qwiic
 #
 # Do you like this library? Help support SparkFun. Buy a board!
-#===============================================================================
+# ===============================================================================
 # Copyright (c) 2023 SparkFun Electronics
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,7 +32,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-#===============================================================================
+# ===============================================================================
 
 from dataclasses import dataclass
 import qwiic_i2c
@@ -351,6 +351,11 @@ class QwOpt4048:
         return int_control_reg.int_cfg
 
     def get_all_flags(self):
+        """
+        Retrieve all flags of the OPT4048.
+        :return: All flags of the OPT4048.
+        :rtype: int
+        """
         flag_reg = OPT4048_Registers.opt4048_reg_flags_t()
 
         flag_reg.word = self._i2c.readWord(
@@ -360,13 +365,23 @@ class QwOpt4048:
         return flag_reg.word
 
     def get_overload_flag(self):
+        """
+        Retrieve the flag that indicates the ADC is overloaded.
+        :return: Flag that indicates the ADC is overloaded.
+        :rtype: bool
+        """
         flag_reg = OPT4048_Registers.opt4048_reg_flags_t()
 
         flag_reg.word = self.get_all_flags()
 
         return flag_reg.overload_flag
 
-    def get_conv_ready_falg(self):
+    def get_conv_ready_flag(self):
+        """
+        Retrieve the flag that indicates a conversion is ready to be read.
+        :return: Flag that indicates a conversion is ready to be read.
+        :rtype: bool
+        """
         flag_reg = OPT4048_Registers.opt4048_reg_flags_t()
 
         flag_reg.word = self.get_all_flags()
@@ -374,6 +389,12 @@ class QwOpt4048:
         return flag_reg.conv_ready_flag
 
     def get_too_bright_flag(self):
+        """
+        Retrieve the flag that indicates lux has is above the current range. This
+        is considered a fault and is stored int the fault register.
+        :return: Flag that indicates lux is above the current range.
+        :rtype: bool
+        """
         flag_reg = OPT4048_Registers.opt4048_reg_flags_t()
 
         flag_reg.word = self.get_all_flags()
@@ -381,6 +402,12 @@ class QwOpt4048:
         return flag_reg.flag_high
 
     def get_too_dim_flag(self):
+        """
+        Retrieve the flag that indicates lux has is below the current range. This
+        is considered a fault and is stored int the fault register.
+        :return: Flag that indicates lux is below the current range.
+        :rtype: bool
+        """
         flag_reg = OPT4048_Registers.opt4048_reg_flags_t()
 
         flag_reg.word = self.get_all_flags()
@@ -388,6 +415,12 @@ class QwOpt4048:
         return flag_reg.flag_low
 
     def set_fault_count(self, count):
+        """
+        Set the number of faults needed to trigger an interupt.
+        :param count: Number of faults needed to trigger an interupt.
+        :type count: int
+        :return: None
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -403,6 +436,11 @@ class QwOpt4048:
         )
 
     def get_fault_count(self):
+        """
+        Retrieve the number of faults that have been triggered.
+        :return: Number of faults that have been triggered.
+        :rtype: int
+        """
         control_reg = OPT4048_Registers.opt4048_reg_control_t()
 
         control_reg.word = self._i2c.readWord(
@@ -412,6 +450,12 @@ class QwOpt4048:
         return control_reg.fault_count
 
     def set_threshold_low(self, thresh):
+        """
+        Set the low interrupt threshold value of the OPT4048.
+        :param thresh: Low interrupt threshold value.
+        :type thresh: int
+        :return: None
+        """
         thresh_reg = OPT4048_Registers.opt4048_reg_thresh_exp_res_low_t()
 
         thresh_reg.word = self._i2c.readWord(
@@ -427,6 +471,11 @@ class QwOpt4048:
         )
 
     def get_threshold_low(self):
+        """
+        Retrieve the low interrupt threshold value of the OPT4048.
+        :return: Low interrupt threshold value.
+        :rtype: int
+        """
         thresh_reg = OPT4048_Registers.opt4048_reg_thresh_exp_res_low_t()
 
         thresh_reg.word = self._i2c.readWord(
@@ -436,6 +485,12 @@ class QwOpt4048:
         return thresh_reg.thresh_exp
 
     def set_threshold_high(self, thresh):
+        """
+        Set the high interrupt threshold value of the OPT4048.
+        :param thresh: High interrupt threshold value.
+        :type thresh: int
+        :return: None
+        """
         thresh_reg = OPT4048_Registers.opt4048_reg_thresh_exp_res_high_t()
 
         thresh_reg.word = self._i2c.readWord(
@@ -451,6 +506,11 @@ class QwOpt4048:
         )
 
     def get_threshold_high(self):
+        """
+        Retrieve the high interrupt threshold value of the OPT4048.
+        :return: High interrupt threshold value.
+        :rtype: int
+        """
         thresh_reg = OPT4048_Registers.opt4048_reg_thresh_exp_res_high_t()
 
         thresh_reg.word = self._i2c.readWord(
@@ -460,6 +520,12 @@ class QwOpt4048:
         return thresh_reg.thresh_exp
 
     def set_i2c_burst(self, enable):
+        """
+        Set the I2C burst setting of the OPT4048: auto-increment or single register I2C reads.
+        :param enable: Enable or disable I2C burst setting.
+        :type enable: bool
+        :return: None
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -475,6 +541,12 @@ class QwOpt4048:
         )
 
     def get_i2c_burst(self):
+        """
+        Retrieve the I2C burst setting of the OPT4048: auto-increment or single register I2C reads.
+        On by default.
+        :return: I2C burst setting.
+        :rtype: bool
+        """
         int_control_reg = OPT4048_Registers.opt4048_reg_int_control_t()
 
         int_control_reg.word = self._i2c.readWord(
@@ -484,6 +556,11 @@ class QwOpt4048:
         return int_control_reg.i2c_burst
 
     def get_adc_ch0(self):
+        """
+        Retrieve the ADC value of channel 0 of the OPT4048.
+        :return: ADC value of channel 0.
+        :rtype: int
+        """
         adc_code = 0
         mantissa = 0
 
@@ -504,6 +581,11 @@ class QwOpt4048:
         return adc_code
 
     def get_adc_ch1(self):
+        """
+        Retrieve the ADC value of channel 1 of the OPT4048.
+        :return: ADC value of channel 1.
+        :rtype: int
+        """
         adc_code = 0
         mantissa = 0
 
@@ -524,6 +606,11 @@ class QwOpt4048:
         return adc_code
 
     def get_adc_ch2(self):
+        """
+        Retrieve the ADC value of channel 2 of the OPT4048.
+        :return: ADC value of channel 2.
+        :rtype: int
+        """
         adc_code = 0
         mantissa = 0
 
@@ -544,6 +631,11 @@ class QwOpt4048:
         return adc_code
 
     def get_adc_ch3(self):
+        """
+        Retrieve the ADC value of channel 3 of the OPT4048.
+        :return: ADC value of channel 3.
+        :rtype: int
+        """
         adc_code = 0
         mantissa = 0
 
@@ -564,6 +656,11 @@ class QwOpt4048:
         return adc_code
 
     def get_all_adc(self):
+        """
+        Retrieve the ADC values of all channels of the OPT4048.
+        :return: ADC values of all channels.
+        :rtype: sfe_color_t
+        """
         color = sfe_color_t()
         color.red = self.get_adc_ch0()
         color.green = self.get_adc_ch1()
@@ -573,6 +670,11 @@ class QwOpt4048:
         return color
 
     def get_all_channel_data(self, color):
+        """
+        Retrieve the ADC values of all channels of the OPT4048. 
+        :return: ADC values of all channels.
+        :rtype: sfe_color_t 
+        """
         buff = bytearray()
 
         adc0_msb = OPT4048_Registers.opt4048_reg_exp_res_ch0_t()
@@ -633,11 +735,21 @@ class QwOpt4048:
         return color
 
     def get_lux(self):
+        """
+        Retrieve the Lux value of the OPT4048.
+        :return: Lux value.
+        :rtype: float
+        """
         adc_ch1 = self.get_adc_ch1()
 
         return adc_ch1 * self.cie_matrix[1][3]
 
     def get_CIEx(self):
+        """
+        Retrieve the CIEx value of the OPT4048.
+        :return: CIEx value.
+        :rtype: float
+        """
         x, y, z = 0, 0, 0
         color = sfe_color_t()
 
@@ -651,6 +763,11 @@ class QwOpt4048:
         return x / (x + y + z)
 
     def get_CIEy(self):
+        """
+        Retrieve the CIEy value of the OPT4048.
+        :return: CIEy value.
+        :rtype: float
+        """
         x, y, z = 0, 0, 0
         color = sfe_color_t()
 
@@ -664,6 +781,11 @@ class QwOpt4048:
         return y / (x + y + z)
 
     def get_cct(self):
+        """
+        Retrieve the CCT value of the OPT4048.
+        :return: CCT value.
+        :rtype: float
+        """
         CIEx = self.get_CIEx()
         CIEy = self.get_CIEy()
 

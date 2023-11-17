@@ -33,7 +33,7 @@
 # SOFTWARE.
 # ===============================================================================
 
-import OPT4048  # TODO Import correct package
+import OPT4048  
 import sys
 import time
 
