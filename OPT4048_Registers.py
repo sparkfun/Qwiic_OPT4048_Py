@@ -69,7 +69,7 @@ class opt4048_reg_exp_res_ch0_t(ctypes.Union):
     _fields_ = [
         ("result_msb_ch0", ctypes.c_uint16, 12),
         ("exponent_ch0", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -82,7 +82,7 @@ class opt4048_reg_res_cnt_crc_ch0_t(ctypes.Union):
         ("crc_ch0", ctypes.c_uint8, 4),
         ("counter_ch0", ctypes.c_uint8, 4),
         ("result_lsb_ch0", ctypes.c_uint8, 8),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -94,7 +94,7 @@ class opt4048_reg_exp_res_ch1_t(ctypes.Union):
     _fields_ = [
         ("result_msb_ch1", ctypes.c_uint16, 12),
         ("exponent_ch1", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -107,7 +107,7 @@ class opt4048_reg_res_cnt_crc_ch1_t(ctypes.Union):
         ("crc_ch1", ctypes.c_uint8, 4),
         ("counter_ch1", ctypes.c_uint8, 4),
         ("result_lsb_ch1", ctypes.c_uint8, 8),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -119,7 +119,7 @@ class opt4048_reg_exp_res_ch2_t(ctypes.Union):
     _fields_ = [
         ("result_msb_ch2", ctypes.c_uint16, 12),
         ("exponent_ch2", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -132,7 +132,7 @@ class opt4048_reg_res_cnt_crc_ch2_t(ctypes.Union):
         ("crc_ch2", ctypes.c_uint8, 4),
         ("counter_ch2", ctypes.c_uint8, 4),
         ("result_lsb_ch2", ctypes.c_uint8, 8),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -144,7 +144,7 @@ class opt4048_reg_exp_res_ch3_t(ctypes.Union):
     _fields_ = [
         ("result_msb_ch3", ctypes.c_uint16, 12),
         ("exponent_ch3", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -157,7 +157,7 @@ class opt4048_reg_res_cnt_crc_ch3_t(ctypes.Union):
         ("crc_ch3", ctypes.c_uint8, 4),
         ("counter_ch3", ctypes.c_uint8, 4),
         ("result_lsb_ch3", ctypes.c_uint8, 8),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -169,7 +169,7 @@ class opt4048_reg_thresh_exp_res_low_t(ctypes.Union):
     _fields_ = [
         ("thresh_result", ctypes.c_uint16, 12),
         ("thresh_exp", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
@@ -181,7 +181,7 @@ class opt4048_reg_thresh_exp_res_high_t(ctypes.Union):
     _fields_ = [
         ("thresh_result", ctypes.c_uint16, 12),
         ("thresh_exp", ctypes.c_uint8, 4),
-        ("word", ctypes.c_uint8, 16),
+        ("word", ctypes.c_uint16, 16),
     ]
 
 
