@@ -46,8 +46,12 @@ def runExample():
         )
         return
 
-    # Initialize the device
-    myColor.begin()
+    if myColor.begin() is False:
+            print(
+                "Could not communicate with the Sensor, is the correct address selected?",
+                file=sys.stderr,
+            )
+            return
 
     # Possible range settings:
     # RANGE_2KLUX2,
@@ -61,7 +65,7 @@ def runExample():
     # A higher color range will result in a lower resolution.
     # The RANGE_AUTO option will automatically select the best
     # range for the current light conditions.
-    myColor.set_range(args.opt4048RangeT.RANGE_2KLUX2)
+    myColor.set_range(args.opt4048RangeT.RANGE_2KLUX2.value)
 
     # CONVERSION_TIME_600US,
     # CONVERSION_TIME_1MS,
@@ -77,26 +81,27 @@ def runExample():
     # CONVERSION_TIME_800MS
     # A higher conversion time will result in more precise readings.
     # For color sensing, having the highest converstion time is suggested.
-    myColor.set_conversion_time(args.opt4048ConversionTimeT.CONVERSION_TIME_800MS)
+    myColor.set_conversion_time(args.opt4048ConversionTimeT.CONVERSION_TIME_800MS.value)
 
     # OPERATION_MODE_POWER_DOWN,
     # OPERATION_MODE_AUTO_ONE_SHOT,
     # OPERATION_MODE_ONE_SHOT,
     # OPERATION_MODE_CONTINUOUS
-    myColor.set_operation_mode(args.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS)
+    myColor.set_operation_mode(args.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS.value)
 
-    print("Ciex: ")
-    print(myColor.get_CIEx())
-    print("\n")
-    print("Ciey: ")
-    print(myColor.get_CIEy())
-    print("\n")
-    print("Color Warmth: ")
-    print(myColor.get_cct())
-    print("K\n")
-    # Delay time is set to the conversion time * number of channels
-    # You need three channels for color sensing @ 800ms conversion time = 3200ms.
-    time.sleep(3.2)
+    while True:
+        print("Ciex: ")
+        print(myColor.get_CIEx())
+        print("\n")
+        print("Ciey: ")
+        print(myColor.get_CIEy())
+        print("\n")
+        print("Color Warmth: ")
+        print(myColor.get_cct())
+        print("K\n")
+        # Delay time is set to the conversion time * number of channels
+        # You need three channels for color sensing @ 800ms conversion time = 3200ms.
+        time.sleep(3.2)
 
 
 if __name__ == "__main__":

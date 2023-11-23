@@ -154,7 +154,7 @@ class QwOpt4048:
         self.set_conversion_time(REGS.opt4048ConversionTimeT.CONVERSION_TIME_200MS.value)
         self.set_operation_mode(REGS.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS.value)
 
-    def set_range(self, range):
+    def set_range(self, color_range):
         """
         Set the range of the OPT4048.
 
@@ -167,7 +167,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.range = range
+        control_reg.bits.range = color_range
 
         self._i2c.writeWord(
             self.address,
@@ -187,7 +187,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.range
+        return control_reg.bits.range
 
     def set_conversion_time(self, time):
         """
@@ -203,7 +203,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.conversion_time = time
+        control_reg.bits.conversion_time = time
 
         self._i2c.writeWord(
             self.address,
@@ -224,7 +224,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.conversion_time
+        return control_reg.bits.conversion_time
 
     def set_qwake(self, enable=True):
         """
@@ -239,7 +239,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.qwake = enable
+        control_reg.bits.qwake = enable
 
         self._i2c.writeWord(
             self.address,
@@ -260,7 +260,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.qwake
+        return control_reg.bits.qwake
 
     def set_operation_mode(self, mode):
         """
@@ -276,7 +276,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.op_mode = mode
+        control_reg.bits.op_mode = mode
 
         self._i2c.writeWord(
             self.address,
@@ -296,7 +296,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.op_mode
+        return control_reg.bits.op_mode
 
     def set_int_latch(self, enable=True):
         """
@@ -312,7 +312,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.latch = enable
+        control_reg.bits.latch = enable
 
         self._i2c.writeWord(
             self.address,
@@ -333,7 +333,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.latch
+        return control_reg.bits.latch
 
     def set_int_active_high(self, enable=True):
         """
@@ -348,7 +348,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.int_pol = enable
+        control_reg.bits.int_pol = enable
 
         self._i2c.writeWord(
             self.address,
@@ -368,7 +368,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.int_pol
+        return control_reg.bits.int_pol
 
     def set_int_input(self, enable=True):
         """
@@ -382,7 +382,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.int_dir = enable
+        int_control_reg.bits.int_dir = enable
 
         self._i2c.writeWord(
             self.address,
@@ -402,7 +402,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.int_dir
+        return int_control_reg.bits.int_dir
 
     def set_int_mechanism(self, mechanism):
         """
@@ -418,7 +418,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.int_cfg = mechanism
+        int_control_reg.bits.int_cfg = mechanism
 
         self._i2c.writeWord(
             self.address,
@@ -439,7 +439,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.int_cfg
+        return int_control_reg.bits.int_cfg
 
     def get_all_flags(self):
         """
@@ -465,7 +465,7 @@ class QwOpt4048:
 
         flag_reg.word = self.get_all_flags()
 
-        return flag_reg.overload_flag
+        return flag_reg.bits.overload_flag
 
     def get_conv_ready_flag(self):
         """
@@ -477,7 +477,7 @@ class QwOpt4048:
 
         flag_reg.word = self.get_all_flags()
 
-        return flag_reg.conv_ready_flag
+        return flag_reg.bits.conv_ready_flag
 
     def get_too_bright_flag(self):
         """
@@ -490,7 +490,7 @@ class QwOpt4048:
 
         flag_reg.word = self.get_all_flags()
 
-        return flag_reg.flag_high
+        return flag_reg.bits.flag_high
 
     def get_too_dim_flag(self):
         """
@@ -503,7 +503,7 @@ class QwOpt4048:
 
         flag_reg.word = self.get_all_flags()
 
-        return flag_reg.flag_low
+        return flag_reg.bits.flag_low
 
     def set_fault_count(self, count):
         """
@@ -518,7 +518,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.fault_count = count
+        control_reg.bits.fault_count = count
 
         self._i2c.writeWord(
             self.address,
@@ -553,7 +553,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
         )
 
-        thresh_reg.thresh_exp = thresh
+        thresh_reg.bits.thresh_exp = thresh
 
         self._i2c.writeWord(
             self.address,
@@ -573,7 +573,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
         )
 
-        return thresh_reg.thresh_exp
+        return thresh_reg.bits.thresh_exp
 
     def set_threshold_high(self, thresh):
         """
@@ -588,7 +588,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_THRESH_H_EXP_RES
         )
 
-        thresh_reg.thresh_exp = thresh
+        thresh_reg.bits.thresh_exp = thresh
 
         self._i2c.writeWord(
             self.address,
@@ -608,7 +608,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_THRESH_H_EXP_RES
         )
 
-        return thresh_reg.thresh_exp
+        return thresh_reg.bits.thresh_exp
 
     def set_i2c_burst(self, enable=True):
         """
@@ -623,7 +623,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.i2c_burst = enable
+        int_control_reg.bits.i2c_burst = enable
 
         self._i2c.writeWord(
             self.address,
@@ -644,7 +644,7 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.i2c_burst
+        return int_control_reg.bits.i2c_burst
 
     def get_adc_ch0(self):
         """
@@ -740,9 +740,9 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3
         )
 
-        mantissa = (adc_reg.result_msb_ch3 << 8) | adc1_reg.result_lsb_ch3
+        mantissa = (adc_reg.bits.result_msb_ch3 << 8) | adc1_reg.bits.result_lsb_ch3
 
-        adc_code = mantissa << adc_reg.exponent_ch3
+        adc_code = mantissa << adc_reg.bits.exponent_ch3
 
         return adc_code
 
@@ -794,32 +794,32 @@ class QwOpt4048:
         adc3_msb.word = (buff[12] << 8) | buff[13]
         adc3_lsb.word = (buff[14] << 8) | buff[15]
 
-        mantissa_ch0 = (adc0_msb.result_msb_ch0 << 8) | adc0_lsb.result_lsb_ch0
-        adc_code_ch0 = mantissa_ch0 << adc0_msb.exponent_ch0
+        mantissa_ch0 = (adc0_msb.bits.result_msb_ch0 << 8) | adc0_lsb.bits.result_lsb_ch0
+        adc_code_ch0 = mantissa_ch0 << adc0_msb.bits.exponent_ch0
 
-        mantissa_ch1 = (adc1_msb.result_msb_ch1 << 8) | adc1_lsb.result_lsb_ch1
-        adc_code_ch1 = mantissa_ch1 << adc1_msb.exponent_ch1
+        mantissa_ch1 = (adc1_msb.bits.result_msb_ch1 << 8) | adc1_lsb.bits.result_lsb_ch1
+        adc_code_ch1 = mantissa_ch1 << adc1_msb.bits.exponent_ch1
 
-        mantissa_ch2 = (adc2_msb.result_msb_ch2 << 8) | adc2_lsb.result_lsb_ch2
+        mantissa_ch2 = (adc2_msb.bits.result_msb_ch2 << 8) | adc2_lsb.bits.result_lsb_ch2
         adc_code_ch2 = mantissa_ch2 << adc2_msb.exponent_ch2
 
-        mantissa_ch3 = (adc3_msb.result_msb_ch3 << 8) | adc3_lsb.result_lsb_ch3
-        adc_code_ch3 = mantissa_ch3 << adc3_msb.exponent_ch3
+        mantissa_ch3 = (adc3_msb.bits.result_msb_ch3 << 8) | adc3_lsb.bits.result_lsb_ch3
+        adc_code_ch3 = mantissa_ch3 << adc3_msb.bits.exponent_ch3
 
         color.red = adc_code_ch0
         color.green = adc_code_ch1
         color.blue = adc_code_ch2
         color.white = adc_code_ch3
 
-        color.counterR = adc0_lsb.counter_ch0
-        color.counterG = adc1_lsb.counter_ch1
-        color.counterB = adc2_lsb.counter_ch2
-        color.counterW = adc3_lsb.counter_ch3
+        color.counterR = adc0_lsb.bits.counter_ch0
+        color.counterG = adc1_lsb.bits.counter_ch1
+        color.counterB = adc2_lsb.bits.counter_ch2
+        color.counterW = adc3_lsb.bits.counter_ch3
 
-        color.CRCR = adc0_lsb.crc_ch0
-        color.CRCG = adc1_lsb.crc_ch1
-        color.CRCB = adc2_lsb.crc_ch2
-        color.CRCW = adc3_lsb.crc_ch3
+        color.CRCR = adc0_lsb.bits.crc_ch0
+        color.CRCG = adc1_lsb.bits.crc_ch1
+        color.CRCB = adc2_lsb.bits.crc_ch2
+        color.CRCW = adc3_lsb.bits.crc_ch3
 
         return color
 

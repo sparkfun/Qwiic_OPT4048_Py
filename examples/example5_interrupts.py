@@ -46,8 +46,12 @@ def runExample():
         )
         return
 
-    # Initialize the device
-    myColor.begin()
+    if myColor.begin() is False:
+        print(
+            "Could not communicate with the Sensor, is the correct address selected?",
+            file=sys.stderr,
+        )
+        return
 
     myColor.set_basic_setup()
 
@@ -65,18 +69,19 @@ def runExample():
     # set operation mode to one shot mode in this case. 
     # myColor.set_int_input()
 
-    print("Ciex: ")
-    print(myColor.get_CIEx())
-    print("\n")
-    print("Ciey: ")
-    print(myColor.get_CIEy())
-    print("\n")
-    print("Color Warmth: ")
-    print(myColor.get_cct())
-    print("K\n")
-    # Delay time is set to the conversion time * number of channels
-    # You need three channels for color sensing @ 800ms conversion time = 3200ms.
-    time.sleep(3.2)
+    while True:
+        print("Ciex: ")
+        print(myColor.get_CIEx())
+        print("\n")
+        print("Ciey: ")
+        print(myColor.get_CIEy())
+        print("\n")
+        print("Color Warmth: ")
+        print(myColor.get_cct())
+        print("K\n")
+        # Delay time is set to the conversion time * number of channels
+        # You need three channels for color sensing @ 800ms conversion time = 3200ms.
+        time.sleep(3.2)
 
 
 if __name__ == "__main__":

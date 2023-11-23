@@ -65,10 +65,16 @@ class opt4048IntCFGT(Enum):
 SFE_OPT4048_REGISTER_EXP_RES_CH0 = 0x00
 
 
-class opt4048_reg_exp_res_ch0_t(ctypes.Union):
+class opt4048_reg_exp_res_ch0_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("result_msb_ch0", ctypes.c_uint16, 12),
         ("exponent_ch0", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_exp_res_ch0_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_exp_res_ch0_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -77,11 +83,17 @@ class opt4048_reg_exp_res_ch0_t(ctypes.Union):
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0 = 0x01
 
 
-class opt4048_reg_res_cnt_crc_ch0_t(ctypes.Union):
+class opt4048_reg_res_cnt_crc_ch0_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("crc_ch0", ctypes.c_uint8, 4),
         ("counter_ch0", ctypes.c_uint8, 4),
         ("result_lsb_ch0", ctypes.c_uint8, 8),
+    ]
+
+
+class opt4048_reg_res_cnt_crc_ch0_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_res_cnt_crc_ch0_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -90,10 +102,16 @@ class opt4048_reg_res_cnt_crc_ch0_t(ctypes.Union):
 SFE_OPT4048_REGISTER_EXP_RES_CH1 = 0x02
 
 
-class opt4048_reg_exp_res_ch1_t(ctypes.Union):
+class opt4048_reg_exp_res_ch1_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("result_msb_ch1", ctypes.c_uint16, 12),
         ("exponent_ch1", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_exp_res_ch1_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_exp_res_ch1_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -102,11 +120,17 @@ class opt4048_reg_exp_res_ch1_t(ctypes.Union):
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1 = 0x03
 
 
-class opt4048_reg_res_cnt_crc_ch1_t(ctypes.Union):
+class opt4048_reg_res_cnt_crc_ch1_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("crc_ch1", ctypes.c_uint8, 4),
         ("counter_ch1", ctypes.c_uint8, 4),
         ("result_lsb_ch1", ctypes.c_uint8, 8),
+    ]
+
+
+class opt4048_reg_res_cnt_crc_ch1_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_res_cnt_crc_ch1_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -115,10 +139,16 @@ class opt4048_reg_res_cnt_crc_ch1_t(ctypes.Union):
 SFE_OPT4048_REGISTER_EXP_RES_CH2 = 0x04
 
 
-class opt4048_reg_exp_res_ch2_t(ctypes.Union):
+class opt4048_reg_exp_res_ch2_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("result_msb_ch2", ctypes.c_uint16, 12),
         ("exponent_ch2", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_exp_res_ch2_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_exp_res_ch2_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -127,11 +157,17 @@ class opt4048_reg_exp_res_ch2_t(ctypes.Union):
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2 = 0x05
 
 
-class opt4048_reg_res_cnt_crc_ch2_t(ctypes.Union):
+class opt4048_reg_res_cnt_crc_ch2_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("crc_ch2", ctypes.c_uint8, 4),
         ("counter_ch2", ctypes.c_uint8, 4),
         ("result_lsb_ch2", ctypes.c_uint8, 8),
+    ]
+
+
+class opt4048_reg_res_cnt_crc_ch2_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_res_cnt_crc_ch2_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -140,10 +176,16 @@ class opt4048_reg_res_cnt_crc_ch2_t(ctypes.Union):
 SFE_OPT4048_REGISTER_EXP_RES_CH3 = 0x06
 
 
-class opt4048_reg_exp_res_ch3_t(ctypes.Union):
+class opt4048_reg_exp_res_ch3_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("result_msb_ch3", ctypes.c_uint16, 12),
         ("exponent_ch3", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_exp_res_ch3_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_exp_res_ch3_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -152,11 +194,17 @@ class opt4048_reg_exp_res_ch3_t(ctypes.Union):
 SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3 = 0x07
 
 
-class opt4048_reg_res_cnt_crc_ch3_t(ctypes.Union):
+class opt4048_reg_res_cnt_crc_ch3_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("crc_ch3", ctypes.c_uint8, 4),
         ("counter_ch3", ctypes.c_uint8, 4),
         ("result_lsb_ch3", ctypes.c_uint8, 8),
+    ]
+
+
+class opt4048_reg_res_cnt_crc_ch3_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_res_cnt_crc_ch3_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -165,10 +213,16 @@ class opt4048_reg_res_cnt_crc_ch3_t(ctypes.Union):
 SFE_OPT4048_REGISTER_THRESH_L_EXP_RES = 0x08
 
 
-class opt4048_reg_thresh_exp_res_low_t(ctypes.Union):
+class opt4048_reg_thresh_exp_res_low_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("thresh_result", ctypes.c_uint16, 12),
         ("thresh_exp", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_thresh_exp_res_low_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_thresh_exp_res_low_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -177,10 +231,16 @@ class opt4048_reg_thresh_exp_res_low_t(ctypes.Union):
 SFE_OPT4048_REGISTER_THRESH_H_EXP_RES = 0x09
 
 
-class opt4048_reg_thresh_exp_res_high_t(ctypes.Union):
+class opt4048_reg_thresh_exp_res_high_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("thresh_result", ctypes.c_uint16, 12),
         ("thresh_exp", ctypes.c_uint8, 4),
+    ]
+
+
+class opt4048_reg_thresh_exp_res_high_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_thresh_exp_res_high_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -189,7 +249,7 @@ class opt4048_reg_thresh_exp_res_high_t(ctypes.Union):
 SFE_OPT4048_REGISTER_CONTROL = 0x0A
 
 
-class opt4048_reg_control_t(ctypes.Union):
+class opt4048_reg_control_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("fault_count", ctypes.c_uint16, 2),
         ("int_pol", ctypes.c_uint16, 1),
@@ -199,6 +259,12 @@ class opt4048_reg_control_t(ctypes.Union):
         ("range", ctypes.c_uint16, 4),
         ("reserved", ctypes.c_uint16, 1),
         ("qwake", ctypes.c_uint16, 1),
+    ]
+
+
+class opt4048_reg_control_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_control_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -207,14 +273,20 @@ class opt4048_reg_control_t(ctypes.Union):
 SFE_OPT4048_REGISTER_INT_CONTROL = 0x0B
 
 
+class opt4048_reg_int_control_bits_t(ctypes.LittleEndianStructure):
+    _fields_ = [
+        ("i2c_burst", ctypes.c_uint8, 1),
+        ("reserved_two", ctypes.c_uint8, 1),
+        ("int_cfg", ctypes.c_uint8, 2),
+        ("int_dir", ctypes.c_uint8, 1),
+        ("threshold_ch_sel", ctypes.c_uint8, 2),
+        ("reserved_one", ctypes.c_uint16, 9),
+    ]
+
+
 class opt4048_reg_int_control_t(ctypes.Union):
     _fields_ = [
-        ("i2c_burst", ctypes.c_uint16, 1),
-        ("reserved_two", ctypes.c_uint16, 1),
-        ("int_cfg", ctypes.c_uint16, 2),
-        ("int_dir", ctypes.c_uint16, 1),
-        ("threshold_ch_sel", ctypes.c_uint16, 2),
-        ("reserved_one", ctypes.c_uint16, 9),
+        ("bits", opt4048_reg_int_control_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -223,13 +295,19 @@ class opt4048_reg_int_control_t(ctypes.Union):
 SFE_OPT4048_REGISTER_FLAGS = 0x0C
 
 
-class opt4048_reg_flags_t(ctypes.Union):
+class opt4048_reg_flags_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("flag_low", ctypes.c_uint8, 1),
         ("flag_high", ctypes.c_uint8, 1),
         ("conv_ready_flag", ctypes.c_uint8, 1),
         ("overload_flag", ctypes.c_uint8, 1),
         ("reserved", ctypes.c_uint16, 12),
+    ]
+
+
+class opt4048_reg_flags_t(ctypes.Union):
+    _field_ = [
+        ("bits", opt4048_reg_flags_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
 
@@ -238,10 +316,16 @@ class opt4048_reg_flags_t(ctypes.Union):
 SFE_OPT4048_REGISTER_DEVICE_ID = 0x11
 
 
-class opt4048_reg_device_id_t(ctypes.Union):
+class opt4048_reg_device_id_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("DIDH", ctypes.c_uint16, 12),
         ("DIDL", ctypes.c_uint16, 2),
         ("reserved", ctypes.c_uint16, 2),
+    ]
+
+
+class opt4048_reg_device_id_t(ctypes.Union):
+    _fields_ = [
+        ("bits", opt4048_reg_device_id_bits_t),
         ("word", ctypes.c_uint16, 16),
     ]
