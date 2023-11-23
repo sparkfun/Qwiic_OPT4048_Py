@@ -40,7 +40,7 @@ OPT4048_ADDR_LOW = 0x44
 OPT4048_ADDR_DEF = 0x44
 OPT4048_ADDR_SDA = 0x46
 
-OPT4048_DEVICE_ID = 0x2084
+OPT4048_DEVICE_ID = 0x2108
 _DEFAULT_NAME = "Qwiic OPT4048"
 _AVAILABLE_I2C_ADDRESS = [OPT4048_ADDR_LOW, OPT4048_ADDR_HIGH, OPT4048_ADDR_SDA]
 
@@ -151,8 +151,12 @@ class QwOpt4048:
         :return: None
         """
         self.set_range(REGS.opt4048RangeT.RANGE_36LUX.value)
-        self.set_conversion_time(REGS.opt4048ConversionTimeT.CONVERSION_TIME_200MS.value)
-        self.set_operation_mode(REGS.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS.value)
+        self.set_conversion_time(
+            REGS.opt4048ConversionTimeT.CONVERSION_TIME_200MS.value
+        )
+        self.set_operation_mode(
+            REGS.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS.value
+        )
 
     def set_range(self, color_range):
         """
@@ -665,9 +669,9 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0
         )
 
-        mantissa = (adc_reg.result_msb_ch0 << 8) | adc1_reg.result_lsb_ch0
+        mantissa = (adc_reg.bits.result_msb_ch0 << 8) | adc1_reg.bits.result_lsb_ch0
 
-        adc_code = mantissa << adc_reg.exponent_ch0
+        adc_code = mantissa << adc_reg.bits.exponent_ch0
 
         return adc_code
 
@@ -690,9 +694,9 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1
         )
 
-        mantissa = (adc_reg.result_msb_ch1 << 8) | adc1_reg.result_lsb_ch1
+        mantissa = (adc_reg.bits.result_msb_ch1 << 8) | adc1_reg.bits.result_lsb_ch1
 
-        adc_code = mantissa << adc_reg.exponent_ch1
+        adc_code = mantissa << adc_reg.bits.exponent_ch1
 
         return adc_code
 
@@ -715,9 +719,9 @@ class QwOpt4048:
             self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2
         )
 
-        mantissa = (adc_reg.result_msb_ch2 << 8) | adc1_reg.result_lsb_ch2
+        mantissa = (adc_reg.bits.result_msb_ch2 << 8) | adc1_reg.bits.result_lsb_ch2
 
-        adc_code = mantissa << adc_reg.exponent_ch2
+        adc_code = mantissa << adc_reg.bits.exponent_ch2
 
         return adc_code
 
@@ -794,16 +798,24 @@ class QwOpt4048:
         adc3_msb.word = (buff[12] << 8) | buff[13]
         adc3_lsb.word = (buff[14] << 8) | buff[15]
 
-        mantissa_ch0 = (adc0_msb.bits.result_msb_ch0 << 8) | adc0_lsb.bits.result_lsb_ch0
+        mantissa_ch0 = (
+            adc0_msb.bits.result_msb_ch0 << 8
+        ) | adc0_lsb.bits.result_lsb_ch0
         adc_code_ch0 = mantissa_ch0 << adc0_msb.bits.exponent_ch0
 
-        mantissa_ch1 = (adc1_msb.bits.result_msb_ch1 << 8) | adc1_lsb.bits.result_lsb_ch1
+        mantissa_ch1 = (
+            adc1_msb.bits.result_msb_ch1 << 8
+        ) | adc1_lsb.bits.result_lsb_ch1
         adc_code_ch1 = mantissa_ch1 << adc1_msb.bits.exponent_ch1
 
-        mantissa_ch2 = (adc2_msb.bits.result_msb_ch2 << 8) | adc2_lsb.bits.result_lsb_ch2
-        adc_code_ch2 = mantissa_ch2 << adc2_msb.exponent_ch2
+        mantissa_ch2 = (
+            adc2_msb.bits.result_msb_ch2 << 8
+        ) | adc2_lsb.bits.result_lsb_ch2
+        adc_code_ch2 = mantissa_ch2 << adc2_msb.bits.exponent_ch2
 
-        mantissa_ch3 = (adc3_msb.bits.result_msb_ch3 << 8) | adc3_lsb.bits.result_lsb_ch3
+        mantissa_ch3 = (
+            adc3_msb.bits.result_msb_ch3 << 8
+        ) | adc3_lsb.bits.result_lsb_ch3
         adc_code_ch3 = mantissa_ch3 << adc3_msb.bits.exponent_ch3
 
         color.red = adc_code_ch0

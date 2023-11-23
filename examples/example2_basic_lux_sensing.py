@@ -47,16 +47,22 @@ def runExample():
         return
 
     # Initialize the device
-    myColor.begin()
+    if myColor.begin() is False:
+        print(
+            "Could not communicate with the Sensor, is the correct address selected?",
+            file=sys.stderr,
+        )
+        return
 
     myColor.set_basic_setup()
     
-    print("Lux: ")
-    print(myColor.get_lux())
-    print("\n")
-    # Delay time is set to the conversion time * number of channels
-    # You need three channels for color sensing @ 800ms conversion time = 3200ms.
-    time.sleep(.2)
+    while True:
+        print("Lux: ")
+        print(myColor.get_lux())
+        print("\n")
+        # Delay time is set to the conversion time * number of channels
+        # You need three channels for color sensing @ 800ms conversion time = 3200ms.
+        time.sleep(.2)
 
 
 if __name__ == "__main__":
