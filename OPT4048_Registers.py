@@ -251,14 +251,14 @@ SFE_OPT4048_REGISTER_CONTROL = 0x0A
 
 class opt4048_reg_control_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
-        ("fault_count", ctypes.c_uint16, 2),
-        ("int_pol", ctypes.c_uint16, 1),
-        ("latch", ctypes.c_uint16, 1),
-        ("op_mode", ctypes.c_uint16, 2),
-        ("conversion_time", ctypes.c_uint16, 4),
-        ("range", ctypes.c_uint16, 4),
-        ("reserved", ctypes.c_uint16, 1),
-        ("qwake", ctypes.c_uint16, 1),
+        ("fault_count", ctypes.c_uint8, 2),
+        ("int_pol", ctypes.c_uint8, 1),
+        ("latch", ctypes.c_uint8, 1),
+        ("op_mode", ctypes.c_uint8, 2),
+        ("conversion_time", ctypes.c_uint8, 4),
+        ("range", ctypes.c_uint8, 4),
+        ("reserved", ctypes.c_uint8, 1),
+        ("qwake", ctypes.c_uint8, 1),
     ]
 
 
@@ -319,7 +319,7 @@ SFE_OPT4048_REGISTER_DEVICE_ID = 0x11
 class opt4048_reg_device_id_bits_t(ctypes.LittleEndianStructure):
     _fields_ = [
         ("DIDH", ctypes.c_uint16, 12),
-        ("DIDL", ctypes.c_uint16, 2),
+        ("DIDL", ctypes.c_uint8, 2),
         ("reserved", ctypes.c_uint16, 2),
     ]
 

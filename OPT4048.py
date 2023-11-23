@@ -861,6 +861,9 @@ class QwOpt4048:
             y += color.green * self.cie_matrix[row][1]
             z += color.blue * self.cie_matrix[row][2]
 
+        if (x + y + z) == 0:
+            return 0
+
         return x / (x + y + z)
 
     def get_CIEy(self):
@@ -878,6 +881,9 @@ class QwOpt4048:
             x += color.red * self.cie_matrix[row][0]
             y += color.green * self.cie_matrix[row][1]
             z += color.blue * self.cie_matrix[row][2]
+
+        if (x + y + z) == 0:
+            return 0
 
         return y / (x + y + z)
 
