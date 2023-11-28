@@ -166,17 +166,15 @@ class QwOpt4048:
         :type range: REGS.opt4048RangeT
         :return: None
         """
-        control_reg = REGS.opt4048_reg_control_t()
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.range = color_range
+        control_reg &= ~0x3C00
+        control_reg |= color_range << 10
 
         self._i2c.writeWord(
-            self.address,
-            REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, control_reg
         )
 
     def get_range(self):
@@ -186,12 +184,11 @@ class QwOpt4048:
         :return: Current range setting.
         :rtype: REGS.opt4048RangeT
         """
-        control_reg = REGS.opt4048_reg_control_t()
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.range
+        return (control_reg & 0x3C00) >> 10
 
     def set_conversion_time(self, time):
         """
@@ -201,13 +198,13 @@ class QwOpt4048:
         :type time: int
         :return: None
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.conversion_time = time
+        control_reg &= ~0x03C0
+        control_reg |= time << 6
 
         self._i2c.writeWord(
             self.address,
@@ -222,13 +219,12 @@ class QwOpt4048:
         :return: Current conversion time setting.
         :rtype: int
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.conversion_time
+        return (control_reg & 0x03C0) >> 6
 
     def set_qwake(self, enable=True):
         """
@@ -237,18 +233,18 @@ class QwOpt4048:
         :param enable: Enable or disable quick wake.
         :type enable: bool
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.qwake = enable
+        control_reg &= ~0x8000
+        control_reg |= enable << 15
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_qwake(self):
@@ -258,13 +254,11 @@ class QwOpt4048:
         :return: Quick wake bit.
         :rtype: int
         """
-        control_reg = REGS.opt4048_reg_control_t()
-
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.qwake
+        return (control_reg & 0x8000) >> 15
 
     def set_operation_mode(self, mode):
         """
@@ -274,18 +268,17 @@ class QwOpt4048:
         :return: None
         """
 
-        control_reg = REGS.opt4048_reg_control_t()
-
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.op_mode = mode
+        control_reg &= ~0x0030
+        control_reg |= mode << 4
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_operation_mode(self):
@@ -294,13 +287,12 @@ class QwOpt4048:
         :return: Current operation mode.
         :rtype: int
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.op_mode
+        return (control_reg & 0x0030) >> 4
 
     def set_int_latch(self, enable=True):
         """
@@ -310,18 +302,18 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.latch = enable
+        control_reg &= ~0x0008
+        control_reg |= enable << 3
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_int_latch(self):
@@ -331,13 +323,12 @@ class QwOpt4048:
         :return: Interrupt latch.
         :rtype: bool
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.latch
+        return control_reg & 0x0008
 
     def set_int_active_high(self, enable=True):
         """
@@ -346,18 +337,18 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.int_pol = enable
+        control_reg &= ~0x0004
+        control_reg |= enable << 2
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_int_active_high(self):
@@ -366,13 +357,11 @@ class QwOpt4048:
         :return: Interrupt polarity.
         :rtype: bool
         """
-        control_reg = REGS.opt4048_reg_control_t()
-
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.bits.int_pol
+        return (control_reg & 0x0004) >> 2
 
     def set_int_input(self, enable=True):
         """
@@ -380,18 +369,17 @@ class QwOpt4048:
         :param enable: Enable or disable interrupt input.
         :type enable: bool
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.bits.int_dir = enable
+        int_control_reg &= ~0x0010
+        int_control_reg |= enable << 4
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_INT_CONTROL,
-            int_control_reg.word,
+            int_control_reg,
         )
 
     def get_int_input_enable(self):
@@ -400,13 +388,11 @@ class QwOpt4048:
         :return: Interrupt input.
         :rtype: bool
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.bits.int_dir
+        return (int_control_reg & 0x0010) >> 4
 
     def set_int_mechanism(self, mechanism):
         """
@@ -416,18 +402,17 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.bits.int_cfg = mechanism
+        int_control_reg &= ~0x000C
+        int_control_reg |= mechanism << 2
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_INT_CONTROL,
-            int_control_reg.word,
+            int_control_reg,
         )
 
     def get_int_mechanism(self):
@@ -437,13 +422,11 @@ class QwOpt4048:
         :return: Interrupt mechanism.
         :rtype: int
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.bits.int_cfg
+        return (int_control_reg & 0x000C) >> 2
 
     def get_all_flags(self):
         """
@@ -516,18 +499,18 @@ class QwOpt4048:
         :type count: int
         :return: None
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        control_reg.bits.fault_count = count
+        control_reg &= ~0x0003
+        control_reg |= count
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_fault_count(self):
@@ -536,13 +519,12 @@ class QwOpt4048:
         :return: Number of faults that have been triggered.
         :rtype: int
         """
-        control_reg = REGS.opt4048_reg_control_t()
 
-        control_reg.word = self._i2c.readWord(
+        control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_CONTROL
         )
 
-        return control_reg.fault_count
+        return control_reg & 0x0003
 
     def set_threshold_low(self, thresh):
         """
@@ -621,18 +603,17 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        int_control_reg.bits.i2c_burst = enable
+        int_control_reg &= ~0x0001
+        int_control_reg |= enable
 
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_INT_CONTROL,
-            int_control_reg.word,
+            int_control_reg,
         )
 
     def get_i2c_burst(self):
@@ -642,13 +623,11 @@ class QwOpt4048:
         :return: I2C burst setting.
         :rtype: bool
         """
-        int_control_reg = REGS.opt4048_reg_int_control_t()
-
-        int_control_reg.word = self._i2c.readWord(
+        int_control_reg = self._i2c.readWord(
             self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL
         )
 
-        return int_control_reg.bits.i2c_burst
+        return int_control_reg & 0x0001
 
     def get_adc_ch0(self):
         """
