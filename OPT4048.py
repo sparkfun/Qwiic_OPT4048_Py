@@ -150,7 +150,7 @@ class QwOpt4048:
 
         :return: None
         """
-        self.set_range(REGS.opt4048RangeT.RANGE_36LUX.value)
+        self.set_range(REGS.opt4048RangeT.RANGE_AUTO.value)
         self.set_conversion_time(
             REGS.opt4048ConversionTimeT.CONVERSION_TIME_200MS.value
         )
@@ -209,7 +209,7 @@ class QwOpt4048:
         self._i2c.writeWord(
             self.address,
             REGS.SFE_OPT4048_REGISTER_CONTROL,
-            control_reg.word,
+            control_reg,
         )
 
     def get_conversion_time(self):
@@ -641,12 +641,12 @@ class QwOpt4048:
         adc_reg = REGS.opt4048_reg_exp_res_ch0_t()
         adc1_reg = REGS.opt4048_reg_res_cnt_crc_ch0_t()
 
-        adc_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH0
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH0, 4
         )
-        adc1_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH0
-        )
+
+        adc_reg.word = (block[0] << 8) | block[1]
+        adc1_reg.word = (block[2] << 8) | block[3]
 
         mantissa = (adc_reg.bits.result_msb_ch0 << 8) | adc1_reg.bits.result_lsb_ch0
 
@@ -666,12 +666,12 @@ class QwOpt4048:
         adc_reg = REGS.opt4048_reg_exp_res_ch1_t()
         adc1_reg = REGS.opt4048_reg_res_cnt_crc_ch1_t()
 
-        adc_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH1
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH1, 4
         )
-        adc1_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH1
-        )
+
+        adc_reg.word = (block[0] << 8) | block[1]
+        adc1_reg.word = (block[2] << 8) | block[3]
 
         mantissa = (adc_reg.bits.result_msb_ch1 << 8) | adc1_reg.bits.result_lsb_ch1
 
@@ -691,12 +691,12 @@ class QwOpt4048:
         adc_reg = REGS.opt4048_reg_exp_res_ch2_t()
         adc1_reg = REGS.opt4048_reg_res_cnt_crc_ch2_t()
 
-        adc_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH2
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH2, 4
         )
-        adc1_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH2
-        )
+
+        adc_reg.word = (block[0] << 8) | block[1]
+        adc1_reg.word = (block[2] << 8) | block[3]
 
         mantissa = (adc_reg.bits.result_msb_ch2 << 8) | adc1_reg.bits.result_lsb_ch2
 
@@ -716,12 +716,12 @@ class QwOpt4048:
         adc_reg = REGS.opt4048_reg_exp_res_ch3_t()
         adc1_reg = REGS.opt4048_reg_res_cnt_crc_ch3_t()
 
-        adc_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH3
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_EXP_RES_CH3, 4
         )
-        adc1_reg.word = self._i2c.readWord(
-            self.address, REGS.SFE_OPT4048_REGISTER_RES_CNT_CRC_CH3
-        )
+
+        adc_reg.word = (block[0] << 8) | block[1]
+        adc1_reg.word = (block[2] << 8) | block[3]
 
         mantissa = (adc_reg.bits.result_msb_ch3 << 8) | adc1_reg.bits.result_lsb_ch3
 
