@@ -18,7 +18,7 @@
 
 from dataclasses import dataclass
 import qwiic_i2c
-import OPT4048_Registers as REGS
+import opt4048_registers as REGS
 
 OPT4048_ADDR_HIGH = 0x45
 OPT4048_ADDR_SCL = 0x45
