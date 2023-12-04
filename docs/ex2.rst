@@ -1,6 +1,7 @@
 
-Example 2 - <Does That>
------------------------------------
-.. literalinclude:: ../examples/qwiic_ex2.py
-    :caption: examples/qwiic_ex2.py
+Example Two - Initiates the OTP4048 Color Sensor using default settings and prints the lux values to the console.
+---------------------------
+.. literalinclude:: ../examples/example2_basic_lux_sensing.py
+    :caption: examples/example2_basic_lux_sensing.py
     :linenos:
+

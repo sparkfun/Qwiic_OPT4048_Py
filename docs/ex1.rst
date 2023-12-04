@@ -1,7 +1,7 @@
 
-Example One - <Does This>
+Example One - Initiates the OTP4048 Color Sensor using default settings and prints the color coordinates to the console.
 ---------------------------
-.. literalinclude:: ../examples/qwiic_ex1.py
-    :caption: examples/qwiic_ex1.py
+.. literalinclude:: ../examples/example1_basic_settings.py
+    :caption: examples/example1_basic_settings.py
     :linenos:
 

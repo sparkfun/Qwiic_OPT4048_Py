@@ -92,12 +92,10 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='electronics, maker',
+    keywords='electronics, maker, sensing',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    py_modules=["qwiic_sparkfun_opt4048"],
-
-    },
+    py_modules=["qwiic_opt4048"],
 
 )

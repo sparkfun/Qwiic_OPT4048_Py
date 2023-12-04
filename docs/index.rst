@@ -26,13 +26,17 @@ Table of Contents
 
    ex1
    ex2
+   ex3
+   ex4
+   ex5
 
 .. toctree::
    :caption: Other Links
 
 	SparkFun <https://sparkfun.com>
-   SparkFun Environmental Combo Breakout CCS811/BME280 <https://www.sparkfun.com/products/14348>
-	GitHub <https://github.com/sparkfun/Qwiic_BME280_Py>
+    SparkFun OPT4048 Tristiumulus Color Sensor<https://www.sparkfun.com/products/22638>
+    SparkFun OPT4048 Tristiumulus Color Sensor<https://www.sparkfun.com/products/22638>
+	GitHub <https://github.com/sparkfun/Qwiic_OPT4048_Py>
 	SparkFun qwiic <https://www.sparkfun.com/qwiic>
 
 	
