@@ -57,9 +57,7 @@ def runExample():
     myColor.set_basic_setup()
     
     while True:
-        print("Color Warmth: ")
-        print(myColor.get_cct())
-        print("K\n")
+        print("Color Warmth: %fK" % myColor.get_CCT())
         # Delay time is set to the conversion time * number of channels
         # You need three channels for color sensing @ 800ms conversion time = 3200ms.
         time.sleep(.2)

@@ -65,7 +65,7 @@ def runExample():
     # A higher color range will result in a lower resolution.
     # The RANGE_AUTO option will automatically select the best
     # range for the current light conditions.
-    myColor.set_range(args.opt4048RangeT.RANGE_2KLUX2.value)
+    myColor.set_range(args.opt4048RangeT.RANGE_AUTO.value)
 
     # CONVERSION_TIME_600US,
     # CONVERSION_TIME_1MS,
@@ -97,7 +97,7 @@ def runExample():
         print(myColor.get_CIEy())
         print("\n")
         print("Color Warmth: ")
-        print(myColor.get_cct())
+        print(myColor.get_CCT())
         print("K\n")
         # Delay time is set to the conversion time * number of channels
         # You need three channels for color sensing @ 800ms conversion time = 3200ms.

@@ -77,11 +77,11 @@ def runExample():
         print(myColor.get_CIEy())
         print("\n")
         print("Color Warmth: ")
-        print(myColor.get_cct())
+        print(myColor.get_CCT())
         print("K\n")
         # Delay time is set to the conversion time * number of channels
-        # You need three channels for color sensing @ 800ms conversion time = 3200ms.
-        time.sleep(3.2)
+        # You need three channels for color sensing @ 200ms conversion time = 600ms.
+        time.sleep(.6)
 
 
 if __name__ == "__main__":
