@@ -58,11 +58,7 @@ def runExample():
     myColor.set_basic_setup()
 
     while True:
-        print("Ciex: ")
-        print(myColor.get_CIEx())
-        print("Ciey: ")
-        print(myColor.get_CIEy())
-        print("\n")
+        print("CIEx: %f, CIEy: %f" % (myColor.get_CIEx(), myColor.get_CIEy()))
         # Delay time is set to the conversion time * number of channels
         # You need three channels for color sensing @ 200ms conversion time = 600ms.
         time.sleep(0.6)

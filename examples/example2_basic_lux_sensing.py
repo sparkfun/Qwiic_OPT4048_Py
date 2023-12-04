@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -------------------------------------------------------------------------------
-# example2_basic_lux_sensing.py 
+# example2_basic_lux_sensing.py
 #
 # This example shows the basic operation for reading lux levels of the OPT4048 Color Sensor.
-# 
+#
 # Products:
 #     Qwiic 1x1: https://www.sparkfun.com/products/22638
 #     Qwiic Mini: https://www.sparkfun.com/products/22639
-# 
+#
 # Repository:
 #     https://github.com/sparkfun/Qwiic_OPT4048_Py
 # -------------------------------------------------------------------------------
@@ -26,17 +26,16 @@
 # Name: OPT4048.py
 # ===============================================================================
 
-import OPT4048  
+import OPT4048
 import sys
 import time
 
 
 def runExample():
-    
     print("\nExample 2 - Basic Lux Sensing\n")
 
     # Create instance of device
-    myColor = OPT4048.QwOpt4048()  
+    myColor = OPT4048.QwOpt4048()
 
     # Check if it's connected
     if myColor.is_connected() is False:
@@ -55,14 +54,12 @@ def runExample():
         return
 
     myColor.set_basic_setup()
-    
+
     while True:
-        print("Lux: ")
-        print(myColor.get_lux())
-        print("\n")
+        print("Lux: %f" % myColor.get_lux())
         # Delay time is set to the conversion time * number of channels
-        # You need three channels for color sensing @ 800ms conversion time = 3200ms.
-        time.sleep(.2)
+        # You need one channel for lux sensing @ 200ms conversion time = 200ms.
+        time.sleep(0.2)
 
 
 if __name__ == "__main__":

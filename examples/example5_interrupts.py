@@ -62,26 +62,21 @@ def runExample():
     # Lux values are generated in Channel One.
     myColor.set_int_mechanism(args.opt4048IntCFGT.INT_DR_ALL_CHANNELS)
 
-    # Change the interrupt direction to active LOW, HIGH is default 
+    # Change the interrupt direction to active LOW, HIGH is default
     # myColor.set_int_active_high(False)
 
     # Change the interrupt to an INPUT to trigger measurements
-    # set operation mode to one shot mode in this case. 
+    # set operation mode to one shot mode in this case.
     # myColor.set_int_input()
 
     while True:
-        print("Ciex: ")
-        print(myColor.get_CIEx())
-        print("\n")
-        print("Ciey: ")
-        print(myColor.get_CIEy())
-        print("\n")
-        print("Color Warmth: ")
-        print(myColor.get_CCT())
-        print("K\n")
+        print(
+            "CIEx: %f, CIEy: %f, CCT: %fK"
+            % (myColor.get_CIEx(), myColor.get_CIEy(), myColor.get_CCT())
+        )
         # Delay time is set to the conversion time * number of channels
         # You need three channels for color sensing @ 200ms conversion time = 600ms.
-        time.sleep(.6)
+        time.sleep(0.6)
 
 
 if __name__ == "__main__":

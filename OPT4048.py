@@ -441,7 +441,7 @@ class QwOpt4048:
         :return: All flags of the OPT4048.
         :rtype: int
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_FLAGS)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_FLAGS, 2)
 
         return block[0] << 8 | block[1]
 
@@ -503,7 +503,7 @@ class QwOpt4048:
         :return: None
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x0003
@@ -525,7 +525,7 @@ class QwOpt4048:
         :rtype: int
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -562,8 +562,7 @@ class QwOpt4048:
         :rtype: int
         """
         block = self._i2c.readBlock(
-            self.address, REGS.SFE_OPT4048_REGISTER_THRESH_L_EXP_RES
-        )
+            self.address, REGS.SFE_OPT4048_REGISTER_THRESH_L_EXP_RES, 2)
 
         thresh_reg = (block[0] << 8) | block[1]
 
@@ -600,7 +599,7 @@ class QwOpt4048:
         :rtype: int
         """
         block = self._i2c.readBlock(
-            self.address, REGS.SFE_OPT4048_REGISTER_THRESH_H_EXP_RES
+            self.address, REGS.SFE_OPT4048_REGISTER_THRESH_H_EXP_RES, 2
         )
 
         thresh_reg = (block[0] << 8) | block[1]
@@ -614,7 +613,7 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL, 2)
 
         int_control_reg = (block[0] << 8) | block[1]
         int_control_reg &= ~0x0001
