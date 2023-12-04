@@ -23,20 +23,19 @@
 #
 # Copyright (c) 2023 SparkFun Electronics
 #
-# Name: OPT4048.py
 # ===============================================================================
 
-import OPT4048
+import qwiic_opt4048
 import sys
 import time
-import OPT4048_Registers as args
+import opt4048_registers as args
 
 
 def runExample():
     print("\nExample 4 - Color Settings\n")
 
     # Create instance of device
-    myColor = OPT4048.QwOpt4048()
+    myColor = qwiic_opt4048.QwOpt4048()
 
     # Check if it's connected
     if myColor.is_connected() is False:

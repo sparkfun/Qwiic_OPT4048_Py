@@ -1,5 +1,5 @@
 API Reference
 ==============
 
-.. automodule:: qwiic_<example_name>
+.. automodule:: qwiic_opt4048
    :members:

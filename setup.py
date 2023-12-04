@@ -54,7 +54,7 @@ setup(
     # http://packaging.python.org/en/latest/tutorial.html#version
     version='1.0.0',
 
-    description='SparkFun Electronics Tristiumul Color Sensor - OPT4048 package',
+    description='SparkFun Electronics Tristiumulus Color Sensor - OPT4048',
     long_description=long_description,
 
     # The project's main homepage.
