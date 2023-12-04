@@ -1,33 +1,19 @@
 # -------------------------------------------------------------------------------
 # qwiic_opt4048.py
 #
+# Do you like this library? Help support SparkFun. Buy a board!
+# * Qwiic 1x1:  https://www.sparkfun.com/products/22638
+# * Qwiic Mini: https://www.sparkfun.com/products/22639
+
 # Python library for the SparkFun Qwiic OPT4048 Tristiumulus Color Sensor, available here:
-# Qwiic 1x1:  https://www.sparkfun.com/products/22638
-# Qwiic Mini: https://www.sparkfun.com/products/22639
-# ------------------------------------------------------------------------------- Written by SparkFun Electronics, November, 2023 This python library supports the SparkFun Electroncis Qwiic ecosystem
+# * https://www.github.com/SparkFun/Qwiic_OPT4048_Py
+# ------------------------------------------------------------------------------- 
+# Written by SparkFun Electronics, November, 2023 This python library supports the SparkFun Electroncis Qwiic ecosystem
 # More information on Qwiic is at https://www.sparkfun.com/qwiic
 #
-# Do you like this library? Help support SparkFun. Buy a board!
 # ===============================================================================
 # Copyright (c) 2023 SparkFun Electronics
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# SPDX-License-Identifier: MIT
 # ===============================================================================
 
 from dataclasses import dataclass
@@ -72,8 +58,8 @@ class QwOpt4048:
 
     device_name = _DEFAULT_NAME
     available_addresses = _AVAILABLE_I2C_ADDRESS
-    # Return Types and Parameter Arguements
 
+    # This matrix is used to convert the ADC values to CIE values.
     cie_matrix = [
         [0.000234892992, -0.0000189652390, 0.0000120811684, 0],
         [0.0000407467441, 0.000198958202, -0.0000158848115, 0.00215],
@@ -149,6 +135,7 @@ class QwOpt4048:
         Configure basic setup for the OPT4048.
 
         This function sets the range, conversion time, and operation mode to default values.
+        It's meant to just get the device up and running with minimal thought from the user.
 
         :return: None
         """
@@ -863,6 +850,8 @@ class QwOpt4048:
         if (x + y + z) == 0:
             return 0
 
+        # Calculate the CIE x value, all of the
+        # math required to do this is in the datasheet.
         return x / (x + y + z)
 
     def get_CIEy(self):
@@ -884,6 +873,8 @@ class QwOpt4048:
         if (x + y + z) == 0:
             return 0
 
+        # Calculate the CIE y value, all of the
+        # math required to do this is in the datasheet.
         return y / (x + y + z)
 
     def get_CCT(self):
@@ -908,6 +899,8 @@ class QwOpt4048:
         CIEx = x / (x + y + z)
         CIEy = y / (x + y + z)
 
+        # Calculate the correlated color temperature, all of the
+        # math required to do this is in the datasheet.
         n = (CIEx - 0.3320) / (0.1858 - CIEy)
 
         CCT = 432 * n**3 + 3601 * n**2 + 6861 * n + 5517
