@@ -7,7 +7,7 @@
 
 # Python library for the SparkFun Qwiic OPT4048 Tristiumulus Color Sensor, available here:
 # * https://www.github.com/SparkFun/Qwiic_OPT4048_Py
-# ------------------------------------------------------------------------------- 
+# -------------------------------------------------------------------------------
 # Written by SparkFun Electronics, November, 2023 This python library supports the SparkFun Electroncis Qwiic ecosystem
 # More information on Qwiic is at https://www.sparkfun.com/qwiic
 #
@@ -155,7 +155,7 @@ class QwOpt4048:
         :type range: REGS.opt4048RangeT
         :return: None
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x3C00
@@ -188,12 +188,12 @@ class QwOpt4048:
         :return: None
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x03C0
         control_reg |= time << 6
-        
+
         block[0] = control_reg >> 8
         block[1] = control_reg & 0x00FF
 
@@ -211,7 +211,7 @@ class QwOpt4048:
         :rtype: int
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -225,12 +225,12 @@ class QwOpt4048:
         :type enable: bool
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x8000
         control_reg |= enable << 15
-        
+
         block[0] = control_reg >> 8
         block[1] = control_reg & 0x00FF
 
@@ -247,7 +247,7 @@ class QwOpt4048:
         :return: Quick wake bit.
         :rtype: int
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -261,7 +261,7 @@ class QwOpt4048:
         :return: None
         """
 
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x0030
@@ -282,7 +282,7 @@ class QwOpt4048:
         :return: Current operation mode.
         :rtype: int
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -296,7 +296,7 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x0008
@@ -318,7 +318,7 @@ class QwOpt4048:
         :return: Interrupt latch.
         :rtype: bool
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -331,7 +331,7 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
         control_reg &= ~0x0004
@@ -352,7 +352,7 @@ class QwOpt4048:
         :return: Interrupt polarity.
         :rtype: bool
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL)
+        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_CONTROL, 2)
 
         control_reg = (block[0] << 8) | block[1]
 
@@ -364,7 +364,9 @@ class QwOpt4048:
         :param enable: Enable or disable interrupt input.
         :type enable: bool
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL)
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL, 2
+        )
 
         int_control_reg = (block[0] << 8) | block[1]
         int_control_reg &= ~0x0010
@@ -385,7 +387,9 @@ class QwOpt4048:
         :return: Interrupt input.
         :rtype: bool
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL)
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL, 2
+        )
 
         int_control_reg = (block[0] << 8) | block[1]
 
@@ -399,7 +403,9 @@ class QwOpt4048:
         :type enable: bool
         :return: None
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL)
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL, 2
+        )
 
         int_control_reg = (block[0] << 8) | block[1]
         int_control_reg &= ~0x000C
@@ -421,7 +427,9 @@ class QwOpt4048:
         :return: Interrupt mechanism.
         :rtype: int
         """
-        block = self._i2c.readBlock(self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL)
+        block = self._i2c.readBlock(
+            self.address, REGS.SFE_OPT4048_REGISTER_INT_CONTROL, 2
+        )
 
         int_control_reg = (block[0] << 8) | block[1]
 
