@@ -23,7 +23,23 @@ Qwiic_OPT4048_Py
 <img src=""  align="right" width=300 alt="SparkFun Qwiic Tristimulus Color Sensor OPT4048">
 
 
-Python module for the [SparkFun OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22638) and [SparkFun _Mini_ OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22639)
+Python module for the [SparkFun OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22638) and the [SparkFun _Mini_ OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22639)
+<table class="table table-hover table-striped table-bordered">
+    <tr>
+        <th class="text-center"> 
+        </th>
+        <th class="text-center">
+        </th>
+    </tr>
+    <tr align="center">
+        <td><a href="https://www.sparkfun.com/products/22638"><img src="https://cdn.sparkfun.com/assets/parts/2/2/7/9/8/22638-_SEN_SparkFun_Tristimulus_Color_Sensor-_01.jpg" alt=""></a></td>
+        <td><a href="https://www.sparkfun.com/products/22639"><img src="https://cdn.sparkfun.com/assets/parts/2/2/7/9/9/22639-_SEN_SparkFun_Mini_Tristimulus_Color_Sensor-_01.jpg" alt=""></a></td>
+    </tr>
+    <tr align="center">
+        <td><a href="https://www.sparkfun.com/products/22638">SparkFun Tristimulus Color Sensor - OPT4048DTSR (Qwiic)</a></td>
+        <td><a href="https://www.sparkfun.com/products/22639">SparkFun Mini Tristimulus Color Sensor - OPT4048DTSR (Qwiic)</a></td>
+    </tr>
+</table>
 
 This python package is a port of the existing [SparkFun OPT4048 Arduino Library](https://github.com/sparkfun/SparkFun_Qwiic_Buzzer_Arduino_Library)
 
