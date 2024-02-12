@@ -10,7 +10,7 @@ Qwiic_OPT4048_Py
 		<img src="https://img.shields.io/pypi/pyversions/sparkfun_opt4048_tristimulus_color_sensor.svg" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_OPT4048_Py/issues" alt="Issues">
 		<img src="https://img.shields.io/github/issues/sparkfun/Qwiic_OPT4048_Py.svg" /></a>
-	<a href="https://qwiic-buzzer-py.readthedocs.io/en/latest/?" alt="Documentation">
+	<a href="https://qwiic-opt4048-py.readthedocs.io/en/latest/" alt="Documentation">
 		<img src="https://readthedocs.org/projects/sparkfun_Qwiic_OPT4048_py/badge/?version=latest&style=flat" /></a>
 	<a href="https://github.com/sparkfun/Qwiic_OPT4048_Py/blob/master/LICENSE" alt="License">
 		<img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
