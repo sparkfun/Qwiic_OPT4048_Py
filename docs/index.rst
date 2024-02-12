@@ -35,7 +35,7 @@ Table of Contents
 
 	SparkFun <https://sparkfun.com>
     SparkFun OPT4048 Tristiumulus Color Sensor<https://www.sparkfun.com/products/22638>
-    SparkFun OPT4048 Tristiumulus Color Sensor<https://www.sparkfun.com/products/22638>
+    SparkFun OPT4048 Tristiumulus Color Sensor<https://www.sparkfun.com/products/22639>
 	GitHub <https://github.com/sparkfun/Qwiic_OPT4048_Py>
 	SparkFun qwiic <https://www.sparkfun.com/qwiic>
 
