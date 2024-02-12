@@ -23,7 +23,7 @@ Qwiic_OPT4048_Py
 <img src=""  align="right" width=300 alt="SparkFun Qwiic Tristimulus Color Sensor OPT4048">
 
 
-Python module for the [SparkFun OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22638) and the [SparkFun _Mini_ OPT4048 Tristiumulus Color Sensor](https://www.sparkfun.com/products/22639)
+Python module for the following:
 <table class="table table-hover table-striped table-bordered">
     <tr>
         <th class="text-center"> 
