@@ -1,0 +1,9 @@
+{
+    "urls": [
+      ["qwiic_opt4048.py", "github:sparkfun/Qwiic_OPT4048_Py/qwiic_opt4048.py"]
+    ],
+    "deps": [
+      ["github:sparkfun/Qwiic_I2C_Py", "master"]
+    ],
+    "version": "0.9.1"
+}
