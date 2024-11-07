@@ -29,8 +29,6 @@
 import qwiic_opt4048
 import sys
 import time
-import opt4048_registers as args
-
 
 def runExample():
     print("\nExample 5 - Interrupts\n")
@@ -60,7 +58,7 @@ def runExample():
 
     # Select the channel that will fire the interrupt
     # Lux values are generated in Channel One.
-    myColor.set_int_mechanism(args.opt4048IntCFGT.INT_DR_ALL_CHANNELS)
+    myColor.set_int_mechanism(myColor.INT_DR_ALL_CHANNELS)
 
     # Change the interrupt direction to active LOW, HIGH is default
     # myColor.set_int_active_high(False)
