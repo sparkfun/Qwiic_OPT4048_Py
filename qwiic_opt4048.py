@@ -743,11 +743,11 @@ class QwOpt4048:
     
     def get_adc_ch3(self):
         """
-        Retrieve the ADC value of channel 2 of the OPT4048.
-        :return: ADC value of channel 2.
+        Retrieve the ADC value of channel 3 of the OPT4048.
+        :return: ADC value of channel 3.
         :rtype: int
         """
-        block = self._i2c.readBlock(self.address, self.SFE_OPT4048_REGISTER_EXP_RES_CH2, 4)
+        block = self._i2c.readBlock(self.address, self.SFE_OPT4048_REGISTER_EXP_RES_CH3, 4)
         
         return self.get_adc_code(block)
 
