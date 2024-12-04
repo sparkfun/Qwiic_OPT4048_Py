@@ -28,7 +28,6 @@
 import qwiic_opt4048
 import sys
 import time
-import opt4048_registers as args
 
 
 def runExample():
@@ -64,7 +63,7 @@ def runExample():
     # A higher color range will result in a lower resolution.
     # The RANGE_AUTO option will automatically select the best
     # range for the current light conditions.
-    myColor.set_range(args.opt4048RangeT.RANGE_AUTO.value)
+    myColor.set_range(myColor.RANGE_AUTO)
 
     # CONVERSION_TIME_600US,
     # CONVERSION_TIME_1MS,
@@ -80,15 +79,13 @@ def runExample():
     # CONVERSION_TIME_800MS
     # A higher conversion time will result in more precise readings.
     # For color sensing, having the highest converstion time is suggested.
-    myColor.set_conversion_time(args.opt4048ConversionTimeT.CONVERSION_TIME_800MS.value)
+    myColor.set_conversion_time(myColor.CONVERSION_TIME_800MS)
 
     # OPERATION_MODE_POWER_DOWN,
     # OPERATION_MODE_AUTO_ONE_SHOT,
     # OPERATION_MODE_ONE_SHOT,
     # OPERATION_MODE_CONTINUOUS
-    myColor.set_operation_mode(
-        args.opt4048OperationModeT.OPERATION_MODE_CONTINUOUS.value
-    )
+    myColor.set_operation_mode(myColor.OPERATION_MODE_CONTINUOUS)
 
     while True:
         print(
